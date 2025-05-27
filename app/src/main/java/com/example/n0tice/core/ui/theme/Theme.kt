@@ -1,4 +1,4 @@
-package com.example.n0tice.ui.theme
+package com.example.n0tice.core.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -10,6 +10,10 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import com.example.n0tice.R
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -31,6 +35,14 @@ private val LightColorScheme = lightColorScheme(
     onBackground = Color(0xFF1C1B1F),
     onSurface = Color(0xFF1C1B1F),
     */
+)
+
+// 외부 폰트 등록
+val preFontFamily = FontFamily(
+    Font(R.font.pre_regular),
+    Font(R.font.pre_medium),
+    Font(R.font.pre_semibold, FontWeight.SemiBold),
+    Font(R.font.pre_bold, FontWeight.Bold)
 )
 
 @Composable
