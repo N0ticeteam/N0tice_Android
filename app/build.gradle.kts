@@ -50,7 +50,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
-    implementation (libs.androidx.material)
+    implementation(libs.androidx.material)
 
     // navigation
     implementation(libs.androidx.navigation.compose)
@@ -62,6 +62,13 @@ dependencies {
     // retrofit
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+
+    // The view calendar library for Android
+    implementation("com.kizitonwose.calendar:view:2.7.0")
+
+    // The compose calendar library for Android
+    implementation("com.kizitonwose.calendar:compose:2.7.0")
+    implementation(libs.androidx.foundation.layout.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

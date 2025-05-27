@@ -41,7 +41,6 @@ fun MainScreen() {
             if (bottomNavBar) BottomNavBar(navController = navController)
         }
     ) {
-
         Box(
             modifier = Modifier
                 .padding(it)

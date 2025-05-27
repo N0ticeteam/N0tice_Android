@@ -40,3 +40,7 @@ val InjuryOrange = Color(0xFFED976C)
 val ConcealGray = Color(0xFF767677)
 
 val BackgroundGray = Color(0xFFF3F3F3)
+
+// 기타
+val Navy = Color(0xFF222B45)
+val BorderGray = Color(0xFFCED3DE)
