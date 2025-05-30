@@ -13,9 +13,8 @@ val Pink40 = Color(0xFF7D5260)
 // 메인 색상 및 변형
 val MainGreen = Color(0xFF50AB7A)
 val SubGreen = Color(0xFF66B68B)
+val LightGreen = Color(0xFFECF5F0)
 val MainRed = Color(0xFFF73A3D)
-val UnselectedGray = Color(0xFF7F7F7F)
-val GuideTextColor = Color(0xFF8F9BB3)
 
 // 산재 매칭 결과 (위험, 보통, 안정)
 val RiskRed = Color(0xFFFDE9E9)
@@ -23,12 +22,10 @@ val UnclearYellow = Color(0xFFFDFBE9)
 val SafeGreen = Color(0xFFE9FDED)
 
 // 사업장 검색 관련
-val LocationSearchGreen = Color(0xFFECF5F0)
 val LocationTextGray = Color(0xFF9CABA2)
 
 val WorkplaceSearchGray = Color(0xFFEFF1F5)
 val WorkplaceSearchText = Color(0xFFA09CAB)
-
 
 // 위치 관련 색상
 val LocationInitial = Color(0xFFEEF7F2)
@@ -43,4 +40,7 @@ val BackgroundGray = Color(0xFFF3F3F3)
 
 // 기타
 val Navy = Color(0xFF222B45)
+val Gray = Color(0xFF7F7F7F)
+val BlueGray = Color(0xFF8F9BB3)
 val BorderGray = Color(0xFFCED3DE)
+val LightGray = Color(0xFFEDF1F7)

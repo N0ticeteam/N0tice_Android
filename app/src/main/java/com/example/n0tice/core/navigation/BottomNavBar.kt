@@ -20,7 +20,7 @@ import com.example.n0tice.core.navigation.BottomNavItem.Log
 import com.example.n0tice.core.navigation.BottomNavItem.Predict
 import com.example.n0tice.core.navigation.BottomNavItem.Risk
 import com.example.n0tice.core.ui.theme.MainGreen
-import com.example.n0tice.core.ui.theme.UnselectedGray
+import com.example.n0tice.core.ui.theme.Gray
 import com.example.n0tice.core.ui.theme.preFontFamily
 
 
@@ -63,7 +63,7 @@ fun BottomNavBar(
                 },
                 selected = (currentRoute == it.route),
                 selectedContentColor = MainGreen,
-                unselectedContentColor = UnselectedGray,
+                unselectedContentColor = Gray,
                 onClick = {
                     navController.navigate(it.route) {
                         navController.graph.startDestinationRoute?.let {
