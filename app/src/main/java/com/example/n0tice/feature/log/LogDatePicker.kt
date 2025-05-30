@@ -1,4 +1,4 @@
-package com.example.n0tice.core.components
+package com.example.n0tice.feature.log
 
 import android.util.Log
 import androidx.compose.material3.DatePicker
@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import com.example.n0tice.core.ui.theme.LightGreen
 import com.example.n0tice.core.ui.theme.MainGreen
 import com.example.n0tice.core.ui.theme.preFontFamily
 import java.text.SimpleDateFormat
@@ -59,7 +58,7 @@ fun LogDatePicker(
             }
         },
         colors = DatePickerDefaults.colors(
-            containerColor = LightGreen,
+            containerColor = Color.White,
         ),
     ) {
         DatePicker(
