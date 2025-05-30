@@ -17,7 +17,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -30,8 +29,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.n0tice.R
+import com.example.n0tice.core.ui.theme.BlueGray
 import com.example.n0tice.core.ui.theme.BorderGray
-import com.example.n0tice.core.ui.theme.GuideTextColor
 import com.example.n0tice.core.ui.theme.MainGreen
 import com.example.n0tice.core.ui.theme.preFontFamily
 import com.kizitonwose.calendar.compose.CalendarState
@@ -44,9 +43,13 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.Month
 import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 
 @Composable
-fun LogCalendarView() {
+fun LogCalendarView(
+    selectedDate: String,
+    onDateSelected: (String) -> Unit
+) {
     val currentMonth = remember { YearMonth.now() }
     val startMonth = currentMonth.minusMonths(12)
     val endMonth = currentMonth.plusMonths(12)
@@ -58,9 +61,7 @@ fun LogCalendarView() {
         firstDayOfWeek = daysOfWeek.first(),
     )
 
-    val selectedDate = remember { mutableStateOf(LocalDate.now()) }
     val today = LocalDate.now()
-
     val coroutineScope = rememberCoroutineScope()
 
     Column(
@@ -76,14 +77,14 @@ fun LogCalendarView() {
             state = calendarState,
             dayContent = { day ->
                 val date = day.date
-                val isSelected = date == selectedDate.value
-                val isToday = date == today
+                val isSelected = date == LocalDate.parse(selectedDate)
+                val isToday = (date == today)
 
                 Box(
                     modifier = Modifier
                         .aspectRatio(1.0f)
                         .clickable {
-                            selectedDate.value = date
+                            onDateSelected(date.toString())
                         }
                         .background(
                             color = when {
@@ -116,7 +117,6 @@ fun LogCalendarView() {
     }
 }
 
-
 @Composable
 private fun CalendarTopSection(
     calendarState: CalendarState,
@@ -132,7 +132,6 @@ private fun CalendarTopSection(
         DayOfWeek.FRIDAY to "금",
         DayOfWeek.SATURDAY to "토",
     )
-
     val monthKoreanMap = mapOf(
         Month.JANUARY to "1월",
         Month.FEBRUARY to "2월",
@@ -217,7 +216,7 @@ private fun CalendarTopSection(
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 14.sp,
                     ),
-                    color = GuideTextColor
+                    color = BlueGray
                 )
 
             }
@@ -234,7 +233,7 @@ private fun CalendarTopSection(
 
                 Text(
                     text = dayKoreanMap[day] ?: "",
-                    color = GuideTextColor,
+                    color = BlueGray,
                     style = TextStyle(
                         fontFamily = preFontFamily,
                         fontWeight = FontWeight.SemiBold,
@@ -247,5 +246,3 @@ private fun CalendarTopSection(
         }
     }
 }
-
-
