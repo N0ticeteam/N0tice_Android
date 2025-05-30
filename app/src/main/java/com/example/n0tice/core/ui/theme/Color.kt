@@ -12,6 +12,7 @@ val Pink40 = Color(0xFF7D5260)
 
 // 메인 색상 및 변형
 val MainGreen = Color(0xFF50AB7A)
+val SecondGreen = Color(0xFF00B383)
 val SubGreen = Color(0xFF66B68B)
 val LightGreen = Color(0xFFECF5F0)
 val MainRed = Color(0xFFF73A3D)
@@ -41,6 +42,8 @@ val BackgroundGray = Color(0xFFF3F3F3)
 // 기타
 val Navy = Color(0xFF222B45)
 val Gray = Color(0xFF7F7F7F)
+val Blue = Color(0xFF0095FF)
+val Violet = Color(0xFF7373EF)
 val BlueGray = Color(0xFF8F9BB3)
 val BorderGray = Color(0xFFCED3DE)
 val LightGray = Color(0xFFEDF1F7)
