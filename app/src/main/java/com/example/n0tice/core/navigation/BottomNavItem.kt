@@ -33,7 +33,7 @@ class NavigationType {
 class LabelType {
     companion object {
         const val Log = "일지 작성"
-        const val Risk = "고위험 사업장 검색"
+        const val Risk = "고위험 사업장"
         const val Predict = "산재 판례 매칭"
     }
 }
