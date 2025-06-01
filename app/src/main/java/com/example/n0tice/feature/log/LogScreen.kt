@@ -25,10 +25,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.n0tice.R
 import com.example.n0tice.core.model.MonthlyLog
 import com.example.n0tice.core.ui.theme.MainGreen
@@ -77,7 +75,6 @@ fun LogScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(top = 25.dp)
     ) {
         Column(
             modifier = Modifier
@@ -180,8 +177,3 @@ fun LogScreen(
     }
 }
 
-@Composable
-@Preview
-fun LogPreview() {
-    LogScreen(rememberNavController())
-}
