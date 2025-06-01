@@ -109,7 +109,7 @@ fun LogScreen(
                     .padding(bottom = 25.dp),
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.plus),
+                    painter = painterResource(R.drawable.ic_plus),
                     contentDescription = null,
                     tint = Color.White
                 )
