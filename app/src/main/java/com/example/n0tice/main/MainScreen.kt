@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
@@ -17,6 +19,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.n0tice.core.auth.SgisAccessTokenManager
 import com.example.n0tice.core.navigation.BottomNavBar
 import com.example.n0tice.core.navigation.BottomNavItem.Log
 import com.example.n0tice.core.navigation.BottomNavItem.Predict
@@ -26,6 +29,9 @@ import com.example.n0tice.core.navigation.NavGraph
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
+
+    val context = LocalContext.current
+    val sgisManager = remember { SgisAccessTokenManager(context.applicationContext) }
 
     var bottomNavBar = true
     val cur = navController.currentBackStackEntryAsState().value
@@ -40,7 +46,7 @@ fun MainScreen() {
     Scaffold(
         modifier = Modifier
             .background(Color.White)
-            .padding(top = 25.dp, start = 15.dp, end = 15.dp),
+            .padding(top = 20.dp),
         bottomBar = {
             if (bottomNavBar) BottomNavBar(navController = navController)
         }
@@ -51,7 +57,7 @@ fun MainScreen() {
                 .padding(it)
                 .fillMaxSize()
         ) {
-            NavGraph(navController = navController)
+            NavGraph(navController = navController, sgisManager = sgisManager)
         }
     }
 }

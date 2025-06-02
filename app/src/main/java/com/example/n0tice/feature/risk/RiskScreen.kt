@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
@@ -27,7 +28,7 @@ import com.example.n0tice.core.ui.theme.preFontFamily
 
 @Composable
 fun RiskScreen(
-    navController: NavController
+    navController: NavController,
 ) {
     val keyword = remember { mutableStateOf("") }
 
@@ -60,6 +61,7 @@ fun RiskScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
+            .padding(horizontal = 15.dp)
     ) {
         Column(
             modifier = Modifier
@@ -81,7 +83,9 @@ fun RiskScreen(
 
             CompanySearchbar(keyword)
 
-            LocationSearchbar(keyword)
+            AddrSearchbar(
+                navigateToSearch = { navController.navigate("addr_search") }
+            )
 
             Divider()
 
@@ -112,9 +116,6 @@ fun RiskScreen(
                     }
                 }
             }
-
         }
-
     }
 }
-
