@@ -25,15 +25,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.n0tice.R
 import com.example.n0tice.core.model.MonthlyLog
 import com.example.n0tice.core.ui.theme.MainGreen
 import java.time.LocalDate
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogScreen(
     navController: NavController
@@ -77,7 +76,7 @@ fun LogScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(top = 25.dp)
+            .padding(horizontal = 15.dp)
     ) {
         Column(
             modifier = Modifier
@@ -112,7 +111,7 @@ fun LogScreen(
                     .padding(bottom = 25.dp),
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.plus),
+                    painter = painterResource(R.drawable.ic_plus),
                     contentDescription = null,
                     tint = Color.White
                 )
@@ -180,8 +179,3 @@ fun LogScreen(
     }
 }
 
-@Composable
-@Preview
-fun LogPreview() {
-    LogScreen(rememberNavController())
-}

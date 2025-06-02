@@ -136,7 +136,7 @@ fun LogWriteSheet(
                     onClick = { openDatePicker() }
                 ) {
                     Icon(
-                        painter = painterResource(R.drawable.calendar),
+                        painter = painterResource(R.drawable.ic_calendar),
                         contentDescription = null,
                         tint = BlueGray
                     )
@@ -183,7 +183,7 @@ fun LogWriteSheet(
                         }
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.clock),
+                            painter = painterResource(R.drawable.ic_clock),
                             contentDescription = null,
                             tint = BlueGray
                         )
@@ -225,7 +225,7 @@ fun LogWriteSheet(
 
                     ) {
                         Icon(
-                            painter = painterResource(R.drawable.clock),
+                            painter = painterResource(R.drawable.ic_clock),
                             contentDescription = null,
                             tint = BlueGray
                         )

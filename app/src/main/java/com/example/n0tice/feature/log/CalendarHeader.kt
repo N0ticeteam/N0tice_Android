@@ -86,7 +86,7 @@ fun CalendarTopSection(
                 }
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.left_arrow),
+                    painter = painterResource(R.drawable.btn_left_arrow),
                     contentDescription = null
                 )
             }
@@ -105,7 +105,7 @@ fun CalendarTopSection(
                 }
             ) {
                 Icon(
-                    painter = painterResource(R.drawable.right_arrow),
+                    painter = painterResource(R.drawable.btn_right_arrow),
                     contentDescription = null
                 )
             }

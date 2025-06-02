@@ -42,12 +42,12 @@ fun BottomNavBar(
 
         items.forEach {
             BottomNavigationItem(
-                modifier = Modifier.padding(vertical = 8.dp),
+                modifier = Modifier.padding(vertical = 12.dp),
                 icon = {
                     Icon(
                         imageVector = it.icon,
                         contentDescription = it.title,
-                        modifier = Modifier.size(30.dp).padding(bottom = 4.dp)
+                        modifier = Modifier.size(32.dp).padding(bottom = 8.dp)
                     )
                 },
                 alwaysShowLabel = true,
@@ -57,7 +57,7 @@ fun BottomNavBar(
                         style = TextStyle(
                             fontFamily = preFontFamily,
                             fontWeight = FontWeight.SemiBold,
-                            fontSize = 11.sp
+                            fontSize = 12.sp
                         ),
                     )
                 },
