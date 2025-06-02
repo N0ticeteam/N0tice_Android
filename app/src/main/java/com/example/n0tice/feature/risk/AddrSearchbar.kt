@@ -1,18 +1,19 @@
 package com.example.n0tice.feature.risk
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -27,7 +28,9 @@ import com.example.n0tice.core.ui.theme.LocationTextGray
 import com.example.n0tice.core.ui.theme.preFontFamily
 
 @Composable
-fun LocationSearchbar(keyword: MutableState<String>) {
+fun AddrSearchbar(
+    navigateToSearch: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -59,21 +62,29 @@ fun LocationSearchbar(keyword: MutableState<String>) {
             )
         }
 
-        TextField(
-            value = keyword.value,
-            onValueChange = { keyword.value = it },
-            leadingIcon = {
+        Box(
+            modifier = Modifier
+                .height(56.dp)
+                .fillMaxWidth()
+                .background(LightGreen, RoundedCornerShape(30.dp))
+                .clickable(onClick = { navigateToSearch() }),
+            contentAlignment = Alignment.CenterStart
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Icon(
                     modifier = Modifier
-                        .padding(start = 20.dp)
-                        .size(20.dp),
+                        .padding(start = 24.dp)
+                        .size(22.dp),
                     painter = painterResource(R.drawable.ic_location),
                     contentDescription = null,
                     tint = LocationTextGray
                 )
-            },
-            placeholder = {
+
                 Text(
+                    modifier = Modifier.padding(start = 6.dp),
                     text = "지역명을 입력하세요",
                     style = TextStyle(
                         fontFamily = preFontFamily,
@@ -82,16 +93,7 @@ fun LocationSearchbar(keyword: MutableState<String>) {
                     ),
                     color = LocationTextGray
                 )
-            },
-            modifier = Modifier
-                .fillMaxWidth(),
-            shape = RoundedCornerShape(30.dp),
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = LightGreen,
-                unfocusedContainerColor = LightGreen,
-                focusedIndicatorColor = Color.White,
-                unfocusedIndicatorColor = Color.White
-            )
-        )
+            }
+        }
     }
 }

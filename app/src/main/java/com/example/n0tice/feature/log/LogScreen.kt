@@ -32,6 +32,7 @@ import com.example.n0tice.core.model.MonthlyLog
 import com.example.n0tice.core.ui.theme.MainGreen
 import java.time.LocalDate
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LogScreen(
     navController: NavController
@@ -75,6 +76,7 @@ fun LogScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
+            .padding(horizontal = 15.dp)
     ) {
         Column(
             modifier = Modifier

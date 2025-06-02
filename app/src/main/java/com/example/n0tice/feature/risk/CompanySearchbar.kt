@@ -83,6 +83,7 @@ fun CompanySearchbar(keyword: MutableState<String>) {
                     color = WorkplaceSearchText
                 )
             },
+            singleLine = true,
             modifier = Modifier
                 .fillMaxWidth(),
             shape = RoundedCornerShape(30.dp),
