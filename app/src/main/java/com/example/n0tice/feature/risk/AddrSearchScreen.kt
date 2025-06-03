@@ -20,6 +20,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -58,6 +59,10 @@ fun AddrSearchScreen(
         selectedGu?.addr_name,
         selectedDong?.addr_name
     ).joinToString(" ")
+
+    LaunchedEffect(Unit) {
+        viewModel.reset()
+    }
 
     Column(
         modifier = Modifier
@@ -145,7 +150,9 @@ fun AddrSearchScreen(
             if (showBtn) {
                 TextButton(
                     onClick = {},
-                    modifier = Modifier.align(Alignment.CenterEnd).padding(end = 15.dp),
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 15.dp),
                     shape = RoundedCornerShape(14.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color.White

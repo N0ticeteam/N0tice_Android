@@ -37,6 +37,18 @@ class RiskViewModel(sgisManager: SgisAccessTokenManager) : ViewModel() {
         }
     }
 
+    fun reset() {
+        _addrState.value = _addrState.value.copy(
+            guList = emptyList(),
+            dongList = emptyList(),
+            selectedSi = null,
+            selectedGu = null,
+            selectedDong = null
+        )
+
+        _currentStage.value = AddrStage.SI
+    }
+
     // 단계별로 주소를 불러온다
     fun getStateAddress(accessToken: String, cd: String?) {
         viewModelScope.launch {
@@ -65,6 +77,7 @@ class RiskViewModel(sgisManager: SgisAccessTokenManager) : ViewModel() {
                         dongList = response.result,
                         selectedDong = null
                     )
+
                     else -> _addrState.value.copy(isError = true, errorMsg = "잘못된 코드")
                 }
 
@@ -87,7 +100,6 @@ class RiskViewModel(sgisManager: SgisAccessTokenManager) : ViewModel() {
             selectedDong = null
         )
 
-//        _currentStage.value = AddrStage.SI
         accessToken?.let { getStateAddress(it, cd = si.cd) } // 구 리스트 요청
     }
 
@@ -99,7 +111,7 @@ class RiskViewModel(sgisManager: SgisAccessTokenManager) : ViewModel() {
         )
         // 지연 후 단계 변경
         viewModelScope.launch {
-            delay(5000)
+            delay(500)
             _currentStage.value = AddrStage.GU // 구를 선택했을 때 GU 단계로 변경
         }
 
@@ -116,7 +128,6 @@ class RiskViewModel(sgisManager: SgisAccessTokenManager) : ViewModel() {
     fun backToSiStage() {
         _currentStage.value = AddrStage.SI
         _addrState.value = _addrState.value.copy(
-            // selectedSi는 유지 - 시는 그대로 두고 구/동만 초기화
             guList = emptyList(),
             dongList = emptyList(),
             selectedGu = null,
@@ -130,9 +141,8 @@ class RiskViewModel(sgisManager: SgisAccessTokenManager) : ViewModel() {
 
     // GU 단계로 돌아가기
     fun backToGuStage() {
-        _currentStage.value = AddrStage.GU
+        _currentStage.value = AddrStage.GU // **단계 명확히 GU로 변경**
         _addrState.value = _addrState.value.copy(
-            dongList = emptyList(),
             selectedDong = null
         )
         // 현재 선택된 시의 구 리스트를 다시 로드
