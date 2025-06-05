@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import com.example.n0tice.core.ui.theme.Blue
 import com.example.n0tice.core.ui.theme.BlueGray
 import com.example.n0tice.core.ui.theme.MainGreen
-import com.example.n0tice.core.ui.theme.SecondGreen
+import com.example.n0tice.core.ui.theme.SGreen
 import com.example.n0tice.core.ui.theme.Violet
 import com.example.n0tice.core.ui.theme.preFontFamily
 import com.kizitonwose.calendar.compose.HorizontalCalendar
@@ -125,7 +125,7 @@ fun LogCalendarView(
                             modifier = Modifier.padding(top = 4.dp),
                             horizontalArrangement = Arrangement.spacedBy(2.dp)
                         ) {
-                            val dotColors = listOf(SecondGreen, Violet, Blue)
+                            val dotColors = listOf(SGreen, Violet, Blue)
 
                             repeat(logCount.coerceAtMost(3)) { idx ->
                                 Box(

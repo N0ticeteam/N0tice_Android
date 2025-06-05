@@ -28,7 +28,7 @@ import com.example.n0tice.core.ui.theme.Blue
 import com.example.n0tice.core.ui.theme.BlueGray
 import com.example.n0tice.core.ui.theme.LightGray
 import com.example.n0tice.core.ui.theme.Navy
-import com.example.n0tice.core.ui.theme.SecondGreen
+import com.example.n0tice.core.ui.theme.SGreen
 import com.example.n0tice.core.ui.theme.Violet
 import com.example.n0tice.core.ui.theme.preFontFamily
 
@@ -66,7 +66,7 @@ fun DailyLogList(
                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                     ) {
                         val dotColors = when {
-                            (idx == 0) -> SecondGreen
+                            (idx == 0) -> SGreen
                             (idx == 1) -> Violet
                             (idx == 2) -> Blue
                             else -> Color.Red

@@ -12,10 +12,13 @@ val Pink40 = Color(0xFF7D5260)
 
 // 메인 색상 및 변형
 val MainGreen = Color(0xFF50AB7A)
-val SecondGreen = Color(0xFF00B383)
+val SGreen = Color(0xFF00B383)
+val TGreen = Color(0xFFDCEEE4)
+val FGreen = Color(0xFFE0F0E8)
 val SubGreen = Color(0xFF66B68B)
 val LightGreen = Color(0xFFECF5F0)
 val MainRed = Color(0xFFF73A3D)
+val LightRed = Color(0xFFFADADA)
 
 // 산재 매칭 결과 (위험, 보통, 안정)
 val RiskRed = Color(0xFFFDE9E9)

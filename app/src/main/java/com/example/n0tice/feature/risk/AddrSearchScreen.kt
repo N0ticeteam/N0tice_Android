@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.n0tice.R
+import com.example.n0tice.core.components.TopBar
 import com.example.n0tice.core.model.AddrStageItem
 import com.example.n0tice.core.ui.theme.LightGreen
 import com.example.n0tice.core.ui.theme.LocationFinal
@@ -69,37 +70,11 @@ fun AddrSearchScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White)
-                .padding(bottom = 20.dp)
-        ) {
-            IconButton(
-                modifier = Modifier
-                    .align(Alignment.CenterStart)
-                    .size(40.dp)
-                    .padding(start = 10.dp),
-                onClick = { onBackPressed() }
-            ) {
-                Icon(
-                    painter = painterResource(R.drawable.btn_back),
-                    contentDescription = null
-                )
-            }
-
-            Text(
-                modifier = Modifier
-                    .align(Alignment.Center),
-                text = "지역 선택",
-                style = TextStyle(
-                    fontFamily = preFontFamily,
-                    fontWeight = FontWeight.Medium,
-                    fontSize = 18.sp
-                ),
-                color = Color.Black
-            )
-        }
+        TopBar(
+            title = "지역 선택",
+            modifier = Modifier.padding(start = 15.dp, end = 15.dp, bottom = 15.dp),
+            onBackPressed = onBackPressed
+        )
 
         Box(
             modifier = Modifier
