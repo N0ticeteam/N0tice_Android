@@ -4,9 +4,9 @@ package com.example.n0tice.feature.log
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -60,17 +60,18 @@ fun LogScreen(
     var showEndTimePicker by remember { mutableStateOf(false) }
 
     val dummyMonthlyLogs = listOf(
-        MonthlyLog(10, "2025-05-02", "건물 외벽 3층 부분 도장", "09:00", "18:00"),
+        MonthlyLog(10, "2025-06-06", "건물 외벽 3층 부분 도장", "09:00", "18:00"),
         MonthlyLog(11, "2025-05-15", "지붕 방수 처리", "10:00", "17:00"),
-        MonthlyLog(12, "2025-05-30", "지붕 방수 처리", "10:00", "17:00"),
-        MonthlyLog(12, "2025-05-30", "지붕 방수 처리", "10:00", "17:00"),
-        MonthlyLog(12, "2025-05-30", "지붕 방수 처리", "10:00", "17:00"),
         MonthlyLog(12, "2025-05-30", "지붕 방수 처리", "10:00", "17:00"),
     )
 
-    val logCountMap: Map<LocalDate, Int> = dummyMonthlyLogs
-        .groupBy { LocalDate.parse(it.logDate) }
-        .mapValues { it.value.size }
+    val logExistenceMap: Map<LocalDate, Boolean> = dummyMonthlyLogs
+        .associate { LocalDate.parse(it.logDate) to true }
+
+    // 일지 목록
+    val log = dummyMonthlyLogs.filter {
+        it.logDate == selectedDate.value
+    }
 
     Surface(
         modifier = Modifier
@@ -88,35 +89,32 @@ fun LogScreen(
             LogCalendarView(
                 selectedDate = selectedDate.value,
                 onDateSelected = { selectedDate.value = it },
-                monthlyLog = logCountMap
+                monthlyLogExistMap = logExistenceMap
             )
 
-            // 일지 목록
-            DailyLogList(
-                selectedDate = selectedDate,
-                monthlyLogs = dummyMonthlyLogs,
-                openDailyLog = {
-                    showLogReadSheet = !showLogReadSheet
-                }
-            )
-        }
-
-        Box {
-            FloatingActionButton(
-                onClick = { showLogWriteSheet = !showLogWriteSheet },
-                shape = CircleShape,
-                containerColor = MainGreen,
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 25.dp),
+            Column(
+                modifier = Modifier.fillMaxHeight()
             ) {
-                Icon(
-                    painter = painterResource(R.drawable.ic_plus),
-                    contentDescription = null,
-                    tint = Color.White
-                )
+                if (log.isNotEmpty()) {
+                    DailyLog(showLogReadSheet, log)
+                } else {
+                    FloatingActionButton(
+                        onClick = { showLogWriteSheet = !showLogWriteSheet },
+                        shape = CircleShape,
+                        containerColor = MainGreen,
+                        modifier = Modifier
+                            .padding(top = 35.dp)
+                    ) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_plus),
+                            contentDescription = null,
+                            tint = Color.White
+                        )
+                    }
+                }
             }
         }
+
 
         // 일지 작성 시트
         if (showLogWriteSheet || showLogReadSheet) {
@@ -178,4 +176,3 @@ fun LogScreen(
         }
     }
 }
-

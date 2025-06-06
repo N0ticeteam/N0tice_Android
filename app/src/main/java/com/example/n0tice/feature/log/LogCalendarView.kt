@@ -26,11 +26,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.n0tice.core.ui.theme.Blue
 import com.example.n0tice.core.ui.theme.BlueGray
 import com.example.n0tice.core.ui.theme.MainGreen
 import com.example.n0tice.core.ui.theme.SGreen
-import com.example.n0tice.core.ui.theme.Violet
 import com.example.n0tice.core.ui.theme.preFontFamily
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -42,7 +40,7 @@ import java.time.YearMonth
 fun LogCalendarView(
     selectedDate: String,
     onDateSelected: (String) -> Unit,
-    monthlyLog: Map<LocalDate, Int>?
+    monthlyLogExistMap: Map<LocalDate, Boolean>?
 ) {
     val currentMonth = remember { YearMonth.now() }
     val startMonth = currentMonth.minusMonths(12)
@@ -78,8 +76,7 @@ fun LogCalendarView(
                     (date.month == calendarState.firstVisibleMonth.yearMonth.month
                             && date.year == calendarState.firstVisibleMonth.yearMonth.year)
 
-                // 일지가 존재하는 날짜만
-                val logCount = monthlyLog?.get(date)
+                val hasLog = monthlyLogExistMap?.get(date) == true
 
                 Column(
                     modifier = Modifier
@@ -120,20 +117,16 @@ fun LogCalendarView(
                         )
                     }
 
-                    if (logCount != null && logCount > 0) {
+                    if (hasLog) {
                         Row(
                             modifier = Modifier.padding(top = 4.dp),
                             horizontalArrangement = Arrangement.spacedBy(2.dp)
                         ) {
-                            val dotColors = listOf(SGreen, Violet, Blue)
-
-                            repeat(logCount.coerceAtMost(3)) { idx ->
-                                Box(
-                                    modifier = Modifier
-                                        .size(6.dp)
-                                        .border(1.6.dp, dotColors[idx], CircleShape)
-                                )
-                            }
+                            Box(
+                                modifier = Modifier
+                                    .size(6.dp)
+                                    .border(1.6.dp, SGreen, CircleShape)
+                            )
                         }
                     } else {
                         Spacer(
