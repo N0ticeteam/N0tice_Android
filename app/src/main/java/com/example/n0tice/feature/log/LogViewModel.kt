@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.n0tice.core.api.n0tice.N0ticeApiService
 import com.example.n0tice.core.api.n0tice.N0ticeClient
 import com.example.n0tice.core.api.n0tice.dto.DailyWorkLog
-import com.example.n0tice.core.api.n0tice.dto.WorkLog
+import com.example.n0tice.core.api.n0tice.dto.MonthlyWorkLog
 import com.example.n0tice.core.api.n0tice.dto.WorkLogRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,16 +17,16 @@ class LogViewModel : ViewModel() {
     val service = N0ticeClient.getInstance().create(N0ticeApiService::class.java)
 
     val dummyMonthlyLogs = listOf(
-        WorkLog(10, "2025-06-06", "건물 외벽 3층 부분 도장", "09:00", "18:00"),
-        WorkLog(11, "2025-05-15", "지붕 방수 처리", "10:00", "17:00"),
-        WorkLog(12, "2025-05-30", "지붕 방수 처리", "10:00", "17:00"),
+        MonthlyWorkLog(10, "2025-06-06", "건물 외벽 3층 부분 도장", "09:00", "18:00"),
+        MonthlyWorkLog(11, "2025-05-15", "지붕 방수 처리", "10:00", "17:00"),
+        MonthlyWorkLog(12, "2025-05-30", "지붕 방수 처리", "10:00", "17:00"),
     )
 
     private val _logWriteState = MutableStateFlow(LogWriteState())
     val logWriteState: StateFlow<LogWriteState> = _logWriteState
 
-    private val _monthlyLogs = MutableStateFlow<List<WorkLog>>(emptyList())
-    val monthlyLogs: StateFlow<List<WorkLog>> = _monthlyLogs
+    private val _monthlyLogs = MutableStateFlow<List<MonthlyWorkLog>>(emptyList())
+    val monthlyLogs: StateFlow<List<MonthlyWorkLog>> = _monthlyLogs
 
     private val _dailyLog = MutableStateFlow<DailyWorkLog?>(null)
     val dailyLog: StateFlow<DailyWorkLog?> = _dailyLog
@@ -61,7 +61,7 @@ class LogViewModel : ViewModel() {
 
             try {
                 if (response.isSuccess) {
-                    _monthlyLogs.value = response.data.workLogList
+                    _monthlyLogs.value = response.data
                 } else {
                     Log.e("LogViewModel", "getMonthlyWorkLogs Error: ${response.message}")
                 }

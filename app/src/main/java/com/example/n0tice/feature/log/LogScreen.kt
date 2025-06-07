@@ -32,7 +32,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.n0tice.R
-import com.example.n0tice.core.api.n0tice.dto.WorkLog
+import com.example.n0tice.core.api.n0tice.dto.MonthlyWorkLog
 import com.example.n0tice.core.api.n0tice.dto.WorkLogRequest
 import com.example.n0tice.core.ui.theme.MainGreen
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -67,7 +67,7 @@ fun LogScreen(
     val logExistenceMap: Map<LocalDate, Boolean> = monthlyLogs.associate { LocalDate.parse(it.logDate) to true }
 
     // 해당 월의 작업 일지
-    val log: WorkLog? = monthlyLogs.find {
+    val log: MonthlyWorkLog? = monthlyLogs.find {
         it.logDate == selectedDate
     }
 
