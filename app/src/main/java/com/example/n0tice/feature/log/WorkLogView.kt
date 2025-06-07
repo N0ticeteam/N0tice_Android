@@ -23,46 +23,34 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.n0tice.core.model.MonthlyLog
+import com.example.n0tice.core.api.n0tice.dto.WorkLog
 import com.example.n0tice.core.ui.theme.BlueGray
 import com.example.n0tice.core.ui.theme.Navy
 import com.example.n0tice.core.ui.theme.SGreen
 import com.example.n0tice.core.ui.theme.preFontFamily
 
 @Composable
-fun DailyLog(
+fun WorkLogView(
     showLogReadSheet: Boolean,
-    log: List<MonthlyLog>
+    log: WorkLog
 ) {
-
     Surface(
-        shape = RoundedCornerShape(16.dp), // 2
-        color = Color.White, // 3
-        shadowElevation = 4.dp, // 4
+        shape = RoundedCornerShape(16.dp),
+        color = Color.White,
+        shadowElevation = 4.dp,
         modifier = Modifier
-            .fillMaxWidth() // 5
+            .fillMaxWidth()
             .clickable(onClick = {})
             .drawWithContent {
                 val paddingPx = with(density) { 10.dp.toPx() }
                 clipRect(
-                    top = -paddingPx, // 7
-                    left = -paddingPx, // 8
-                    right = size.width + paddingPx, // 9
-                    bottom = size.height + paddingPx // 10
+                    top = -paddingPx,
+                    left = -paddingPx,
+                    right = size.width + paddingPx,
+                    bottom = size.height + paddingPx
                 ) { this@drawWithContent.drawContent() }
             }
     ) {
-//    Box(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(vertical = 8.dp)
-//            .border(1.5.dp, LightGray, RoundedCornerShape(16.dp))
-//            .clickable(
-//                onClick = {
-//                    showLogReadSheet1 = !showLogReadSheet1
-//                }
-//            )
-//    ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -80,7 +68,7 @@ fun DailyLog(
                 )
 
                 Text(
-                    text = "${log[0].startTime} - ${log[0].endTime}",
+                    text = "${log.startTime} - ${log.endTime}",
                     style = TextStyle(
                         fontFamily = preFontFamily,
                         fontWeight = FontWeight.SemiBold,
@@ -91,7 +79,7 @@ fun DailyLog(
             }
 
             Text(
-                text = log[0].title,
+                text = log.title,
                 style = TextStyle(
                     fontFamily = preFontFamily,
                     fontWeight = FontWeight.SemiBold,
