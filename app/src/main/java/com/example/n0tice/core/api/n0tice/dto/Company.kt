@@ -1,9 +1,8 @@
-package com.example.n0tice.core.api.sgis.dto
+package com.example.n0tice.core.api.n0tice.dto
 
 data class Company(
-    val id: Int,
     val companyName: String,
-    val dataYear: String,
+    val dataYear: Int,
     val accidentType: String,
     val address: String
 )
