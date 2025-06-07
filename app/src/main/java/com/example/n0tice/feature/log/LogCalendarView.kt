@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,29 +29,17 @@ import com.example.n0tice.core.ui.theme.BlueGray
 import com.example.n0tice.core.ui.theme.MainGreen
 import com.example.n0tice.core.ui.theme.SGreen
 import com.example.n0tice.core.ui.theme.preFontFamily
+import com.kizitonwose.calendar.compose.CalendarState
 import com.kizitonwose.calendar.compose.HorizontalCalendar
-import com.kizitonwose.calendar.compose.rememberCalendarState
-import com.kizitonwose.calendar.core.daysOfWeek
 import java.time.LocalDate
-import java.time.YearMonth
 
 @Composable
 fun LogCalendarView(
+    calendarState: CalendarState,
     selectedDate: String,
     onDateSelected: (String) -> Unit,
     monthlyLogExistMap: Map<LocalDate, Boolean>?
 ) {
-    val currentMonth = remember { YearMonth.now() }
-    val startMonth = currentMonth.minusMonths(12)
-    val endMonth = currentMonth.plusMonths(12)
-    val daysOfWeek = daysOfWeek()
-    val calendarState = rememberCalendarState(
-        startMonth = startMonth,
-        endMonth = endMonth,
-        firstVisibleMonth = currentMonth,
-        firstDayOfWeek = daysOfWeek.first(),
-    )
-
     val today = LocalDate.now()
     val coroutineScope = rememberCoroutineScope()
 
@@ -63,7 +50,7 @@ fun LogCalendarView(
         verticalArrangement = Arrangement.spacedBy(12.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        CalendarTopSection(calendarState, coroutineScope, daysOfWeek)
+        CalendarTopSection(calendarState, coroutineScope)
 
         HorizontalCalendar(
             state = calendarState,
