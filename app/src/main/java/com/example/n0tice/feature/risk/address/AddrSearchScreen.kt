@@ -1,4 +1,4 @@
-package com.example.n0tice.feature.risk
+package com.example.n0tice.feature.risk.address
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -43,7 +43,7 @@ import com.example.n0tice.core.ui.theme.preFontFamily
 
 @Composable
 fun AddrSearchScreen(
-    viewModel: RiskViewModel,
+    viewModel: AddrViewModel,
     onBackPressed: () -> Unit
 ) {
     val addrState = viewModel.addrState.collectAsState().value

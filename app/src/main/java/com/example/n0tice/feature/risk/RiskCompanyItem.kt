@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.n0tice.core.api.sgis.dto.Company
+import com.example.n0tice.core.api.n0tice.dto.Company
 import com.example.n0tice.core.ui.theme.BackgroundGray
 import com.example.n0tice.core.ui.theme.DeathRed
 import com.example.n0tice.core.ui.theme.preFontFamily
@@ -57,7 +57,7 @@ fun RiskCompanyItem(result: Company) {
 
             Text(
                 modifier = Modifier.weight(0.25f),
-                text = result.dataYear,
+                text = result.dataYear.toString(),
                 style = TextStyle(
                     fontFamily = preFontFamily,
                     fontWeight = FontWeight.Medium,

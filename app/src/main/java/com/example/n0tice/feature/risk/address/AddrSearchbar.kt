@@ -1,4 +1,4 @@
-package com.example.n0tice.feature.risk
+package com.example.n0tice.feature.risk.address
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

@@ -1,4 +1,4 @@
-package com.example.n0tice.feature.risk
+package com.example.n0tice.feature.risk.address
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class RiskViewModel(sgisManager: SgisAccessTokenManager) : ViewModel() {
+class AddrViewModel(sgisManager: SgisAccessTokenManager) : ViewModel() {
     private val service: SgisApiService = SgisClient.getInstance().create(SgisApiService::class.java)
 
     private val _addrState = MutableStateFlow(AddrState())
