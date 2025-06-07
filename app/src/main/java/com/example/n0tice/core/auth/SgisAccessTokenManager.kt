@@ -3,8 +3,8 @@ package com.example.n0tice.core.auth
 import android.content.Context
 import android.content.SharedPreferences
 import com.example.n0tice.BuildConfig
-import com.example.n0tice.core.api.SgisApiService
-import com.example.n0tice.core.api.SgisClient
+import com.example.n0tice.core.api.sgis.SgisApiService
+import com.example.n0tice.core.api.sgis.SgisClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 

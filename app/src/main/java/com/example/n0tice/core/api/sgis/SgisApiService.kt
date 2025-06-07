@@ -1,7 +1,7 @@
-package com.example.n0tice.core.api
+package com.example.n0tice.core.api.sgis
 
-import com.example.n0tice.core.model.AddrStageResponse
-import com.example.n0tice.core.model.AuthResponse
+import com.example.n0tice.core.api.sgis.dto.AddrStageResponse
+import com.example.n0tice.core.api.sgis.dto.AuthResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

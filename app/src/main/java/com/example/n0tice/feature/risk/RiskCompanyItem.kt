@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.n0tice.core.model.Company
+import com.example.n0tice.core.api.sgis.dto.Company
 import com.example.n0tice.core.ui.theme.BackgroundGray
 import com.example.n0tice.core.ui.theme.DeathRed
 import com.example.n0tice.core.ui.theme.preFontFamily

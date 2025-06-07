@@ -1,4 +1,4 @@
-package com.example.n0tice.core.model
+package com.example.n0tice.core.api.sgis.dto
 
 data class AuthResponse(
     val id: String,

@@ -3,10 +3,10 @@ package com.example.n0tice.feature.risk
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.n0tice.core.api.SgisApiService
-import com.example.n0tice.core.api.SgisClient
+import com.example.n0tice.core.api.sgis.SgisApiService
+import com.example.n0tice.core.api.sgis.SgisClient
 import com.example.n0tice.core.auth.SgisAccessTokenManager
-import com.example.n0tice.core.model.AddrStageItem
+import com.example.n0tice.core.api.sgis.dto.AddrStageItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

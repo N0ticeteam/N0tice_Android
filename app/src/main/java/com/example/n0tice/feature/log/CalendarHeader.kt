@@ -26,17 +26,16 @@ import com.example.n0tice.core.ui.theme.BlueGray
 import com.example.n0tice.core.ui.theme.BorderGray
 import com.example.n0tice.core.ui.theme.preFontFamily
 import com.kizitonwose.calendar.compose.CalendarState
+import com.kizitonwose.calendar.core.daysOfWeek
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.Month
 
-
 @Composable
 fun CalendarTopSection(
     calendarState: CalendarState,
     coroutineScope: CoroutineScope,
-    daysOfWeek: List<DayOfWeek>,
 ) {
     val dayKoreanMap = mapOf(
         DayOfWeek.SUNDAY to "일",
@@ -47,6 +46,7 @@ fun CalendarTopSection(
         DayOfWeek.FRIDAY to "금",
         DayOfWeek.SATURDAY to "토",
     )
+    
     val monthKoreanMap = mapOf(
         Month.JANUARY to "1월",
         Month.FEBRUARY to "2월",
@@ -139,7 +139,7 @@ fun CalendarTopSection(
 
         // 요일 표시
         Row {
-            daysOfWeek.forEach { day ->
+            daysOfWeek().forEach { day ->
                 Text(
                     text = dayKoreanMap[day] ?: "",
                     color = BlueGray,

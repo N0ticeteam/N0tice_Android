@@ -1,4 +1,4 @@
-package com.example.n0tice.core.api
+package com.example.n0tice.core.api.sgis
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

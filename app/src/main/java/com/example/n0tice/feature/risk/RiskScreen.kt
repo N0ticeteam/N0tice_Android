@@ -22,7 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.n0tice.core.model.Company
+import com.example.n0tice.core.api.sgis.dto.Company
 import com.example.n0tice.core.ui.theme.Gray
 import com.example.n0tice.core.ui.theme.preFontFamily
 

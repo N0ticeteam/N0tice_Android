@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.n0tice.core.auth.SgisAccessTokenManager
 import com.example.n0tice.feature.log.LogScreen
+import com.example.n0tice.feature.log.LogViewModel
 import com.example.n0tice.feature.predict.LossPredictionScreen
 import com.example.n0tice.feature.predict.MatchingResultScreen
 import com.example.n0tice.feature.predict.PredictScreen
@@ -29,7 +30,8 @@ fun NavGraph(
 
     NavHost(navController = navController, startDestination = BottomNavItem.Log.route) {
         composable(BottomNavItem.Log.route) {
-            LogScreen(navController)
+            val logViewModel: LogViewModel = viewModel()
+            LogScreen(logViewModel, navController)
         }
 
         composable(BottomNavItem.Risk.route) {
