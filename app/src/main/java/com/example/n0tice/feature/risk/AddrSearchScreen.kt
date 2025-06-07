@@ -36,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.n0tice.R
 import com.example.n0tice.core.components.TopBar
-import com.example.n0tice.core.model.AddrStageItem
+import com.example.n0tice.core.api.sgis.dto.AddrStageItem
 import com.example.n0tice.core.ui.theme.LightGreen
 import com.example.n0tice.core.ui.theme.LocationFinal
 import com.example.n0tice.core.ui.theme.preFontFamily

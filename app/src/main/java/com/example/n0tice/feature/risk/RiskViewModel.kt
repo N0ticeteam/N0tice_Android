@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.n0tice.core.api.sgis.SgisApiService
 import com.example.n0tice.core.api.sgis.SgisClient
 import com.example.n0tice.core.auth.SgisAccessTokenManager
-import com.example.n0tice.core.model.AddrStageItem
+import com.example.n0tice.core.api.sgis.dto.AddrStageItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
