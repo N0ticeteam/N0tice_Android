@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -16,7 +17,8 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -26,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.n0tice.R
+import com.example.n0tice.core.api.n0tice.dto.WorkLogRequest
 import com.example.n0tice.core.ui.theme.BlueGray
 import com.example.n0tice.core.ui.theme.LightGray
 import com.example.n0tice.core.ui.theme.MainGreen
@@ -33,19 +36,20 @@ import com.example.n0tice.core.ui.theme.preFontFamily
 
 @Composable
 fun LogWriteSheet(
-    title: MutableState<String>,
-    content: MutableState<String>,
-    selectedDate: MutableState<String>,
+    selectedDate: String,
+    startTime: String,
+    endTime: String,
     openDatePicker: () -> Unit,
-    startTime: MutableState<String>,
     openStartTimePicker: () -> Unit,
-    endTime: MutableState<String>,
     openEndTimePicker: () -> Unit,
-    supervisor: MutableState<String>,
-    deputy: MutableState<String>,
-    notes: MutableState<String>,
-    close: () -> Unit
+    close: (WorkLogRequest) -> Unit
 ) {
+    val title = remember { mutableStateOf("") }
+    val content = remember { mutableStateOf("") }
+    val manager = remember { mutableStateOf("") }
+    val agent = remember { mutableStateOf("") }
+    val notes = remember { mutableStateOf("") }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -61,6 +65,7 @@ fun LogWriteSheet(
                 fontSize = 18.sp
             )
         )
+
         TextField(
             modifier = Modifier
                 .fillMaxWidth()
@@ -98,12 +103,12 @@ fun LogWriteSheet(
                     LightGray,
                     RoundedCornerShape(10.dp)
                 )
-                .height(100.dp),
+                .heightIn(min = 100.dp),
             value = content.value,
             onValueChange = { content.value = it },
             placeholder = {
                 Text(
-                    text = "내용을 입력해주세요",
+                    text = "내용을 입력해주세요 *",
                     style = TextStyle(
                         fontFamily = preFontFamily,
                         fontWeight = FontWeight.Medium,
@@ -129,7 +134,7 @@ fun LogWriteSheet(
                     LightGray,
                     RoundedCornerShape(10.dp)
                 ),
-            value = selectedDate.value,
+            value = selectedDate,
             onValueChange = { },
             trailingIcon = {
                 IconButton(
@@ -144,7 +149,7 @@ fun LogWriteSheet(
             },
             placeholder = {
                 Text(
-                    text = "날짜",
+                    text = "날짜 *",
                     style = TextStyle(
                         fontFamily = preFontFamily,
                         fontWeight = FontWeight.Medium,
@@ -174,7 +179,7 @@ fun LogWriteSheet(
                         LightGray,
                         RoundedCornerShape(16.dp)
                     ),
-                value = startTime.value,
+                value = startTime,
                 onValueChange = { },
                 trailingIcon = {
                     IconButton(
@@ -191,7 +196,7 @@ fun LogWriteSheet(
                 },
                 placeholder = {
                     Text(
-                        text = "시작 시간",
+                        text = "시작 시간 *",
                         style = TextStyle(
                             fontFamily = preFontFamily,
                             fontWeight = FontWeight.Medium,
@@ -217,7 +222,7 @@ fun LogWriteSheet(
                         LightGray,
                         RoundedCornerShape(10.dp)
                     ),
-                value = endTime.value,
+                value = endTime,
                 onValueChange = { },
                 trailingIcon = {
                     IconButton(
@@ -233,7 +238,7 @@ fun LogWriteSheet(
                 },
                 placeholder = {
                     Text(
-                        text = "종료 시간",
+                        text = "종료 시간 *",
                         style = TextStyle(
                             fontFamily = preFontFamily,
                             fontWeight = FontWeight.Medium,
@@ -263,13 +268,13 @@ fun LogWriteSheet(
                         LightGray,
                         RoundedCornerShape(16.dp)
                     ),
-                value = supervisor.value,
+                value = manager.value,
                 onValueChange = {
-                    supervisor.value = it
+                    manager.value = it
                 },
                 placeholder = {
                     Text(
-                        text = "현장 감독관",
+                        text = "현장 감독관 *",
                         style = TextStyle(
                             fontFamily = preFontFamily,
                             fontWeight = FontWeight.Medium,
@@ -294,13 +299,13 @@ fun LogWriteSheet(
                         LightGray,
                         RoundedCornerShape(10.dp)
                     ),
-                value = deputy.value,
+                value = agent.value,
                 onValueChange = {
-                    deputy.value = it
+                    agent.value = it
                 },
                 placeholder = {
                     Text(
-                        text = "현장 대리인",
+                        text = "현장 대리인 *",
                         style = TextStyle(
                             fontFamily = preFontFamily,
                             fontWeight = FontWeight.Medium,
@@ -353,9 +358,19 @@ fun LogWriteSheet(
                 .fillMaxWidth()
                 .background(color = MainGreen, shape = RoundedCornerShape(10.dp)),
             onClick = {
-                // api 요청 로직 작성
-
-                close()
+                close(
+                    WorkLogRequest(
+                        userId = "1",
+                        logDate = selectedDate,
+                        title = title.value,
+                        content = content.value,
+                        startTime = startTime,
+                        endTime = endTime,
+                        managerName = manager.value,
+                        agentName = agent.value,
+                        accidentRelatedNotes = notes.value
+                    )
+                )
             }
 
         ) {
