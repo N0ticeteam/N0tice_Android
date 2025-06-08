@@ -2,6 +2,7 @@ package com.example.n0tice.core.auth
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
 import com.example.n0tice.BuildConfig
 import com.example.n0tice.core.api.sgis.SgisApiService
 import com.example.n0tice.core.api.sgis.SgisClient
@@ -58,14 +59,14 @@ class SgisAccessTokenManager(context: Context) {
                     cachedToken = newToken
                     cachedTimeout = newTimeout
 
-                    println("Access Token successfully refreshed.")
+                    Log.d("Addr", "Access Token successfully refreshed.")
                     newToken
                 } else {
-                    println("Failed to get new Access Token: ${authResponse.errMsg}")
+                    Log.e("Addr", "Failed to get new Access Token: ${authResponse.errMsg}")
                     null
                 }
             } catch (e: Exception) {
-                println("Error fetching new Access Token: ${e.message}")
+                Log.e("Addr", "Error fetching new Access Token: ${e.message}, ${e.cause}")
                 null
             }
         }
