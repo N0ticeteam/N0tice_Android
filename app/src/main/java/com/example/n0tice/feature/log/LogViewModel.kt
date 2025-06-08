@@ -16,12 +16,6 @@ import retrofit2.HttpException
 class LogViewModel : ViewModel() {
     val service = N0ticeClient.getInstance().create(N0ticeApiService::class.java)
 
-    val dummyMonthlyLogs = listOf(
-        MonthlyWorkLog(10, "2025-06-06", "건물 외벽 3층 부분 도장", "09:00", "18:00"),
-        MonthlyWorkLog(11, "2025-05-15", "지붕 방수 처리", "10:00", "17:00"),
-        MonthlyWorkLog(12, "2025-05-30", "지붕 방수 처리", "10:00", "17:00"),
-    )
-
     private val _logWriteState = MutableStateFlow(LogWriteState())
     val logWriteState: StateFlow<LogWriteState> = _logWriteState
 
@@ -32,7 +26,7 @@ class LogViewModel : ViewModel() {
     val dailyLog: StateFlow<DailyWorkLog?> = _dailyLog
 
     // 특정 일자의 작업 일지를 받아오는 함수
-    fun getWorkLog(date: String, userId: Long) {
+    fun getDailyWorkLog(date: String, userId: Long) {
         Log.d("LogViewModel", "readWorkLog called: $date,$userId")
 
         viewModelScope.launch {

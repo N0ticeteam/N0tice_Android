@@ -50,6 +50,7 @@ fun LogScreen(
 
     val logWriteState = logViewModel.logWriteState.collectAsState().value
     val monthlyLogs = logViewModel.monthlyLogs.collectAsState().value
+    val dailyLog = logViewModel.dailyLog.collectAsState().value
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     var showLogWriteSheet by remember { mutableStateOf(false) }
@@ -64,7 +65,8 @@ fun LogScreen(
     var showStartTimePicker by remember { mutableStateOf(false) }
     var showEndTimePicker by remember { mutableStateOf(false) }
 
-    val logExistenceMap: Map<LocalDate, Boolean> = monthlyLogs.associate { LocalDate.parse(it.logDate) to true }
+    val logExistenceMap: Map<LocalDate, Boolean> =
+        monthlyLogs.associate { LocalDate.parse(it.logDate) to true }
 
     // 해당 월의 작업 일지
     val log: MonthlyWorkLog? = monthlyLogs.find {
@@ -100,7 +102,7 @@ fun LogScreen(
         )
     }
 
-    if(logWriteState.isSuccess == false){
+    if (logWriteState.isSuccess == false) {
         Toast.makeText(context, "일지 작성에 실패하였습니다. 다시 시도해주세요.", Toast.LENGTH_SHORT).show()
     }
 
@@ -132,7 +134,8 @@ fun LogScreen(
                 // 일지가 존재하면 일지 표시
                 // 일지가 존재하지 않으면 일지 추가 버튼 표시
                 if (log != null) {
-                    WorkLogView(showLogWriteSheet, log)
+                    logViewModel.getDailyWorkLog(log.logDate, 1)
+                    dailyLog?.let { WorkLogView(dailyLog) }
                 } else {
                     FloatingActionButton(
                         onClick = { showLogWriteSheet = !showLogWriteSheet },
