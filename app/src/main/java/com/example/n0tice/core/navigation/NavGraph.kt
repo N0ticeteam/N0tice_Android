@@ -12,21 +12,20 @@ import com.example.n0tice.feature.predict.LossPredictionScreen
 import com.example.n0tice.feature.predict.MatchingResultScreen
 import com.example.n0tice.feature.predict.PredictScreen
 import com.example.n0tice.feature.predict.ScenarioSelectionScreen
-import com.example.n0tice.feature.risk.AddrSearchScreen
 import com.example.n0tice.feature.risk.RiskScreen
 import com.example.n0tice.feature.risk.RiskViewModel
-import com.example.n0tice.feature.risk.RiskViewModelFactory
+import com.example.n0tice.feature.risk.address.AddrSearchScreen
+import com.example.n0tice.feature.risk.address.AddrViewModel
+import com.example.n0tice.feature.risk.address.AddrViewModelFactory
 
 @Composable
 fun NavGraph(
     navController: NavHostController,
     sgisManager: SgisAccessTokenManager
 ) {
-    val riskViewModel: RiskViewModel = viewModel(
-        factory = RiskViewModelFactory(
-            sgisAccessTokenManager = sgisManager
-        )
-    )
+    val addrViewModel: AddrViewModel =
+        viewModel(factory = AddrViewModelFactory(sgisAccessTokenManager = sgisManager))
+    val riskViewModel: RiskViewModel = viewModel()
 
     NavHost(navController = navController, startDestination = BottomNavItem.Log.route) {
         composable(BottomNavItem.Log.route) {
@@ -35,7 +34,7 @@ fun NavGraph(
         }
 
         composable(BottomNavItem.Risk.route) {
-            RiskScreen(navController)
+            RiskScreen(riskViewModel, navController)
         }
 
         composable(BottomNavItem.Predict.route) {
@@ -44,7 +43,9 @@ fun NavGraph(
 
         composable("addr_search") {
             AddrSearchScreen(
-                viewModel = riskViewModel, onBackPressed = navController::popBackStack
+                riskViewModel = riskViewModel,
+                addrViewModel = addrViewModel,
+                onBackPressed = navController::popBackStack
             )
         }
 

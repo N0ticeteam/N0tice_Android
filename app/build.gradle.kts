@@ -74,6 +74,8 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
 
+    implementation(libs.logging.interceptor)
+
     // The view calendar library for Android
     implementation("com.kizitonwose.calendar:view:2.7.0")
 

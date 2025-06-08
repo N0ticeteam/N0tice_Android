@@ -23,7 +23,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.n0tice.core.api.n0tice.dto.WorkLog
+import com.example.n0tice.core.api.n0tice.dto.MonthlyWorkLog
 import com.example.n0tice.core.ui.theme.BlueGray
 import com.example.n0tice.core.ui.theme.Navy
 import com.example.n0tice.core.ui.theme.SGreen
@@ -32,7 +32,7 @@ import com.example.n0tice.core.ui.theme.preFontFamily
 @Composable
 fun WorkLogView(
     showLogReadSheet: Boolean,
-    log: WorkLog
+    log: MonthlyWorkLog
 ) {
     Surface(
         shape = RoundedCornerShape(16.dp),

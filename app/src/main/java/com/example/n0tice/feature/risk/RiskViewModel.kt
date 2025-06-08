@@ -3,164 +3,89 @@ package com.example.n0tice.feature.risk
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.n0tice.core.api.sgis.SgisApiService
-import com.example.n0tice.core.api.sgis.SgisClient
-import com.example.n0tice.core.auth.SgisAccessTokenManager
-import com.example.n0tice.core.api.sgis.dto.AddrStageItem
-import kotlinx.coroutines.delay
+import com.example.n0tice.core.api.n0tice.N0ticeApiService
+import com.example.n0tice.core.api.n0tice.N0ticeClient
+import com.example.n0tice.core.api.n0tice.dto.Company
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class RiskViewModel(sgisManager: SgisAccessTokenManager) : ViewModel() {
-    private val service: SgisApiService = SgisClient.getInstance().create(SgisApiService::class.java)
+class RiskViewModel : ViewModel() {
+    private val service = N0ticeClient.getInstance().create(N0ticeApiService::class.java)
 
-    private val _addrState = MutableStateFlow(AddrState())
-    val addrState: StateFlow<AddrState> = _addrState
+    private val _companyList = MutableStateFlow<List<Company>>(emptyList())
+    val companyList: StateFlow<List<Company>> = _companyList
 
-    private val _currentStage = MutableStateFlow(AddrStage.SI)
-    val currentStage: StateFlow<AddrStage> = _currentStage
+    fun getCompanyByKeyword(keyword: String) {
+        Log.d("RiskViewModel", "getCompanyByKeyword called: $keyword")
 
-    private var accessToken = sgisManager.getCurrentAccessToken()
+        clearCompanyList()
 
-    init {
         viewModelScope.launch {
-            if (accessToken == null || !sgisManager.isAccessTokenValid()) {
-                accessToken = sgisManager.fetchAndStoreNewAccessToken()
-            }
-
-            if (accessToken != null) {
-                getStateAddress(accessToken = accessToken!!, cd = null)
-            } else {
-                Log.e("Addr", "Access Token 발급 실패로 데이터 로드 불가.")
-            }
-        }
-    }
-
-    fun reset() {
-        _addrState.value = _addrState.value.copy(
-            guList = emptyList(),
-            dongList = emptyList(),
-            selectedSi = null,
-            selectedGu = null,
-            selectedDong = null
-        )
-
-        _currentStage.value = AddrStage.SI
-    }
-
-    // 단계별로 주소를 불러온다
-    fun getStateAddress(accessToken: String, cd: String?) {
-        viewModelScope.launch {
-            Log.d("Addr", "accessToken: $accessToken cd: $cd")
+            val response = service.getCompanyByKeyword(keyword)
 
             try {
-                val response = if (cd == null) {
-                    service.getTopLevelAddresses(accessToken)
+                if (response.isSuccessful) {
+
+                    val body = response.body()
+                    if (body != null && body.isSuccess) {
+                        _companyList.value = body.data
+                    } else {
+                        _companyList.value = emptyList()
+
+                        val errorBody = response.errorBody()?.string()
+                        Log.e("RiskViewModel", "HTTP Error: ${response.code()} $errorBody")
+                    }
                 } else {
-                    service.getSubLevelAddresses(accessToken, cd)
+                    _companyList.value = emptyList()
+
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("RiskViewModel", "HTTP Error: ${response.code()} $errorBody")
                 }
 
-                _addrState.value = when {
-                    cd == null -> _addrState.value.copy(
-                        siList = response.result
-                    )
-
-                    cd.length == 2 -> _addrState.value.copy(
-                        guList = response.result,
-                        dongList = emptyList(),
-                        selectedGu = null,
-                        selectedDong = null
-                    )
-
-                    cd.length == 5 -> _addrState.value.copy(
-                        dongList = response.result,
-                        selectedDong = null
-                    )
-
-                    else -> _addrState.value.copy(isError = true, errorMsg = "잘못된 코드")
-                }
-
-                Log.d("Addr", "getStateAddress called:: ${_addrState.value}")
             } catch (e: Exception) {
-                _addrState.value =
-                    _addrState.value.copy(isError = true, errorMsg = e.message)
-                Log.e("Addr", "Error: ${_addrState.value.errorMsg}")
+                _companyList.value = emptyList()
+                Log.e("RiskViewModel", "getCompanyByKeyword failed: ${e.message}")
             }
         }
     }
 
-    // 시/도 선택 시
-    fun selectSi(si: AddrStageItem) {
-        _addrState.value = _addrState.value.copy(
-            selectedSi = si,
-            guList = emptyList(), // 초기화
-            dongList = emptyList(),
-            selectedGu = null,
-            selectedDong = null
-        )
+    fun getCompanyByAddress(city: String, district: String, neighborhood: String?) {
+        Log.d("RiskViewModel", "getCompanyByKeyword called: $city, $district, $neighborhood")
 
-        accessToken?.let { getStateAddress(it, cd = si.cd) } // 구 리스트 요청
-    }
-
-    fun selectGu(gu: AddrStageItem) {
-        _addrState.value = _addrState.value.copy(
-            selectedGu = gu,
-            dongList = emptyList(),
-            selectedDong = null
-        )
-        // 지연 후 단계 변경
         viewModelScope.launch {
-            delay(500)
-            _currentStage.value = AddrStage.GU // 구를 선택했을 때 GU 단계로 변경
-        }
+            val response = service.getCompanyByAddress(
+                city = city,
+                district = district,
+                neighborhood = neighborhood ?: ""
+            )
 
-        accessToken?.let { getStateAddress(it, cd = gu.cd) } // 동 리스트 요청
-    }
+            try {
+                if (response.isSuccessful) {
 
-    fun selectDong(dong: AddrStageItem) {
-        _addrState.value = _addrState.value.copy(
-            selectedDong = dong
-        )
-    }
+                    val body = response.body()
+                    if (body != null && body.isSuccess) {
+                        _companyList.value = body.data
+                    } else {
+                        _companyList.value = emptyList()
+                        Log.d("RiskViewModel", "검색 결과 null: ${body?.message}")
+                    }
 
-    // SI 단계로 돌아가기
-    fun backToSiStage() {
-        _currentStage.value = AddrStage.SI
-        _addrState.value = _addrState.value.copy(
-            guList = emptyList(),
-            dongList = emptyList(),
-            selectedGu = null,
-            selectedDong = null
-        )
-        // 현재 선택된 시의 구 리스트를 다시 로드
-        _addrState.value.selectedSi?.let { si ->
-            accessToken?.let { token -> getStateAddress(token, cd = si.cd) }
-        }
-    }
+                } else {
+                    _companyList.value = emptyList()
 
-    // GU 단계로 돌아가기
-    fun backToGuStage() {
-        _currentStage.value = AddrStage.GU // **단계 명확히 GU로 변경**
-        _addrState.value = _addrState.value.copy(
-            selectedDong = null
-        )
-        // 현재 선택된 시의 구 리스트를 다시 로드
-        _addrState.value.selectedSi?.let { si ->
-            accessToken?.let { token -> getStateAddress(token, cd = si.cd) }
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("RiskViewModel", "HTTP Error: ${response.code()} $errorBody")
+                }
+            } catch (e: Exception) {
+                _companyList.value = emptyList()
+                Log.e("RiskViewModel", "getCompanyByAddress failed: ${e.message}")
+            }
         }
     }
+
+    fun clearCompanyList(){
+        _companyList.value = emptyList()
+    }
+
 }
-
-data class AddrState(
-    val siList: List<AddrStageItem> = emptyList(),
-    val guList: List<AddrStageItem> = emptyList(),
-    val dongList: List<AddrStageItem> = emptyList(),
-
-    val selectedSi: AddrStageItem? = null,
-    val selectedGu: AddrStageItem? = null,
-    val selectedDong: AddrStageItem? = null,
-
-    val isError: Boolean = false,
-    val errorMsg: String? = null
-)

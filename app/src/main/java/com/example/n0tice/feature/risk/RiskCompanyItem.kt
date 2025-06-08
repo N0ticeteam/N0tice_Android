@@ -17,9 +17,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.n0tice.core.api.sgis.dto.Company
+import com.example.n0tice.core.api.n0tice.dto.Company
 import com.example.n0tice.core.ui.theme.BackgroundGray
+import com.example.n0tice.core.ui.theme.ConcealGray
 import com.example.n0tice.core.ui.theme.DeathRed
+import com.example.n0tice.core.ui.theme.InjuryOrange
 import com.example.n0tice.core.ui.theme.preFontFamily
 
 @Composable
@@ -36,14 +38,21 @@ fun RiskCompanyItem(result: Company) {
             ),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            val boxColor = when(result.accidentType){
+                "사망" -> DeathRed
+                "부상" -> InjuryOrange
+                "은폐" -> ConcealGray
+                else -> Color.Black
+            }
+
             Box(
                 modifier = Modifier
                     .wrapContentWidth()
                     .weight(0.15f)
-                    .background(DeathRed, RoundedCornerShape(10.dp))
+                    .background(boxColor, RoundedCornerShape(10.dp))
             ) {
                 Text(
-                    modifier = Modifier.padding(vertical = 6.dp, horizontal = 12.dp),
+                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 12.dp),
                     text = result.accidentType,
                     style = TextStyle(
                         fontFamily = preFontFamily,
@@ -57,7 +66,7 @@ fun RiskCompanyItem(result: Company) {
 
             Text(
                 modifier = Modifier.weight(0.25f),
-                text = result.dataYear,
+                text = result.dataYear.toString(),
                 style = TextStyle(
                     fontFamily = preFontFamily,
                     fontWeight = FontWeight.Medium,

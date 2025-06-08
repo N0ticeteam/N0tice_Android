@@ -2,6 +2,7 @@ package com.example.n0tice.feature.risk
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,50 +13,32 @@ import androidx.compose.material.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.n0tice.core.api.sgis.dto.Company
 import com.example.n0tice.core.ui.theme.Gray
 import com.example.n0tice.core.ui.theme.preFontFamily
+import com.example.n0tice.feature.risk.address.AddrSearchbar
 
 @Composable
 fun RiskScreen(
+    riskViewModel: RiskViewModel,
     navController: NavController,
 ) {
-    val keyword = remember { mutableStateOf("") }
+    val companyList = riskViewModel.companyList.collectAsState().value
 
-    val results = listOf(
-        Company(
-            id = 2,
-            companyName = "청원미화재단청재단",
-            dataYear = "2022",
-            accidentType = "사망",
-            address = "대전광역시 유성구 상대동 123"
-        ),
-        Company(
-            id = 2,
-            companyName = "S-OIL 공사",
-            dataYear = "2023",
-            accidentType = "부상",
-            address = "대전 유성구 온천동 신공장 46"
-        ),
-        Company(
-            id = 2,
-            companyName = "(주)정민건설(S-Oil Offsite Improvement Plan공사중 [CON_4]원유토목기초공사)",
-            dataYear = "2022",
-            accidentType = "사망",
-            address = "대전광역시 유성구 상대동 123"
-        ),
-
-        )
+    // 화면 진입 시 초기화
+    LaunchedEffect(Unit) {
+        riskViewModel.clearCompanyList()
+    }
 
     Surface(
         modifier = Modifier
@@ -81,36 +64,45 @@ fun RiskScreen(
                 color = Color.Black
             )
 
-            CompanySearchbar(keyword)
+            CompanySearchbar(
+                search = { riskViewModel.getCompanyByKeyword(it) }
+            )
 
             AddrSearchbar(
-                navigateToSearch = { navController.navigate("addr_search") }
+                navigateToSearch = { navController.navigate("addr_search") },
             )
 
             Divider()
 
             Column(
-                modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 RiskCompanyHeader()
 
-                if (results == null) {
-                    Text(
-                        text = "검색 결과가 없어요",
-                        style = TextStyle(
-                            fontFamily = preFontFamily,
-                            fontWeight = FontWeight.Medium,
-                            fontSize = 14.sp
-                        ),
-                        color = Gray
-                    )
+                if (companyList.isEmpty()) {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = "검색 결과가 존재하지 않습니다",
+                            style = TextStyle(
+                                fontFamily = preFontFamily,
+                                fontWeight = FontWeight.Medium,
+                                fontSize = 14.sp
+                            ),
+                            textAlign = TextAlign.Center,
+                            color = Gray
+                        )
+                    }
                 } else {
                     LazyColumn(
                         verticalArrangement = Arrangement.spacedBy(12.dp)
                     ) {
-                        items(results) { result ->
-                            RiskCompanyItem(result)
+                        items(companyList) { company ->
+                            RiskCompanyItem(company)
 
                         }
                     }
