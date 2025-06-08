@@ -5,6 +5,7 @@ import com.example.n0tice.core.api.n0tice.dto.DailyWorkLog
 import com.example.n0tice.core.api.n0tice.dto.MonthlyWorkLog
 import com.example.n0tice.core.api.n0tice.dto.N0ticeResponse
 import com.example.n0tice.core.api.n0tice.dto.WorkLogRequest
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -34,17 +35,17 @@ interface N0ticeApiService {
     ): N0ticeResponse<List<MonthlyWorkLog>>
 
     // 키워드 기반 고위험 사업장 조회 API
-    @GET("/api/companies/search")
+    @GET("api/companies/search")
     suspend fun getCompanyByKeyword(
         @Query("keyword") keyword: String,
-    ):N0ticeResponse<List<Company>>
+    ):Response<N0ticeResponse<List<Company>>>
 
     // 주소(시/구/동) 기반 고위험 사업장 조회 API
-    @GET("api/companies/filter")
+    @GET("api/companies/location")
     suspend fun getCompanyByAddress(
         @Query("city") city: String,
         @Query("district") district: String,
-        @Query("neighborhoods") neighborhoods: String
-    ):N0ticeResponse<List<Company>>
+        @Query("neighborhood") neighborhood: String
+    ):Response<N0ticeResponse<List<Company>>>
 
 }
