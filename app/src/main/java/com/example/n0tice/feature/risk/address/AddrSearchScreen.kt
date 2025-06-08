@@ -40,18 +40,20 @@ import com.example.n0tice.core.api.sgis.dto.AddrStageItem
 import com.example.n0tice.core.ui.theme.LightGreen
 import com.example.n0tice.core.ui.theme.LocationFinal
 import com.example.n0tice.core.ui.theme.preFontFamily
+import com.example.n0tice.feature.risk.RiskViewModel
 
 @Composable
 fun AddrSearchScreen(
-    viewModel: AddrViewModel,
+    riskViewModel: RiskViewModel,
+    addrViewModel: AddrViewModel,
     onBackPressed: () -> Unit
 ) {
-    val addrState = viewModel.addrState.collectAsState().value
-    val currentStage = viewModel.currentStage.collectAsState().value
+    val addrState = addrViewModel.addrState.collectAsState().value
+    val currentStage = addrViewModel.currentStage.collectAsState().value
 
-    val selectedSi = viewModel.addrState.collectAsState().value.selectedSi
-    val selectedGu = viewModel.addrState.collectAsState().value.selectedGu
-    val selectedDong = viewModel.addrState.collectAsState().value.selectedDong
+    val selectedSi = addrViewModel.addrState.collectAsState().value.selectedSi
+    val selectedGu = addrViewModel.addrState.collectAsState().value.selectedGu
+    val selectedDong = addrViewModel.addrState.collectAsState().value.selectedDong
 
     var showBtn by remember { mutableStateOf(false) }
 
@@ -62,7 +64,7 @@ fun AddrSearchScreen(
     ).joinToString(" ")
 
     LaunchedEffect(Unit) {
-        viewModel.reset()
+        addrViewModel.reset()
     }
 
     Column(
@@ -95,8 +97,8 @@ fun AddrSearchScreen(
                             .size(40.dp),
                         onClick = {
                             when (currentStage) {
-                                AddrStage.GU -> viewModel.backToSiStage()
-                                AddrStage.DONG -> viewModel.backToGuStage()
+                                AddrStage.GU -> addrViewModel.backToSiStage()
+                                AddrStage.DONG -> addrViewModel.backToGuStage()
                                 else -> {}
                             }
 
@@ -124,7 +126,18 @@ fun AddrSearchScreen(
 
             if (showBtn) {
                 TextButton(
-                    onClick = {},
+                    onClick = {
+                        // 동는 null 가능
+                        if (selectedSi != null && selectedGu != null){
+                            riskViewModel.getCompanyByAddress(
+                                city = selectedSi.addr_name,
+                                district = selectedGu.addr_name,
+                                neighborhood = selectedDong?.addr_name
+                            )
+
+                            onBackPressed()
+                        }
+                    },
                     modifier = Modifier
                         .align(Alignment.CenterEnd)
                         .padding(end = 15.dp),
@@ -159,7 +172,7 @@ fun AddrSearchScreen(
                             AddressListItem(
                                 item = si,
                                 backgroundColor = if (isSelected) LightGreen else Color.White,
-                                onClick = { viewModel.selectSi(si) }
+                                onClick = { addrViewModel.selectSi(si) }
                             )
                         }
                     }
@@ -171,7 +184,7 @@ fun AddrSearchScreen(
                             AddressListItem(
                                 item = gu,
                                 backgroundColor = if (isSelected) LightGreen else Color.White,
-                                onClick = { viewModel.selectGu(gu) }
+                                onClick = { addrViewModel.selectGu(gu) }
                             )
                         }
                     }
@@ -187,7 +200,7 @@ fun AddrSearchScreen(
                                     // 이미 선택된 구이므로 클릭해도 변경 없음
                                     // 또는 다른 구 선택 시 해당 구의 동 리스트로 변경
                                     if (gu != selectedGu) {
-                                        viewModel.selectGu(gu)
+                                        addrViewModel.selectGu(gu)
                                     }
                                 }
                             )
@@ -212,7 +225,7 @@ fun AddrSearchScreen(
                                 AddressListItem(
                                     item = gu,
                                     backgroundColor = if (isSelected) LocationFinal else LightGreen,
-                                    onClick = { viewModel.selectGu(gu) }
+                                    onClick = { addrViewModel.selectGu(gu) }
                                 )
                             }
                         }
@@ -226,7 +239,7 @@ fun AddrSearchScreen(
                                 AddressListItem(
                                     item = dong,
                                     backgroundColor = if (isSelected) LocationFinal else LightGreen,
-                                    onClick = { viewModel.selectDong(dong) }
+                                    onClick = { addrViewModel.selectDong(dong) }
                                 )
                             }
                         }
@@ -239,7 +252,7 @@ fun AddrSearchScreen(
                             AddressListItem(
                                 item = dong,
                                 backgroundColor = if (isSelected) LocationFinal else LightGreen,
-                                onClick = { viewModel.selectDong(dong) }
+                                onClick = { addrViewModel.selectDong(dong) }
                             )
                         }
                     }
