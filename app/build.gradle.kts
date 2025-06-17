@@ -29,11 +29,12 @@ android {
         buildConfigField("String", "OAUTH_NAVER_CLIENT_NAME", properties.getProperty("OAUTH_NAVER_CLIENT_NAME"))
         buildConfigField("String", "OAUTH_NAVER_CLIENT_ID", properties.getProperty("OAUTH_NAVER_CLIENT_ID"))
         buildConfigField("String", "OAUTH_NAVER_CLIENT_SECRET", properties.getProperty("OAUTH_NAVER_CLIENT_SECRET"))
-        buildConfigField("String", "OAUTH_NAVER_REDIRECT_URI", properties.getProperty("OAUTH_NAVER_REDIRECT_URI"))
+
+        buildConfigField("String", "OAUTH_GOOGLE_CLIENT_ID", properties.getProperty("OAUTH_GOOGLE_CLIENT_ID"))
+        buildConfigField("String", "OAUTH_GOOGLE_CLIENT_SECRET", properties.getProperty("OAUTH_GOOGLE_CLIENT_SECRET"))
     }
 
     buildTypes {
-
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -103,6 +104,12 @@ dependencies {
     implementation("com.squareup.moshi:moshi-kotlin:1.11.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.2.1")
     implementation("com.airbnb.android:lottie:3.1.0")
+
+    // google play services
+    implementation ("com.google.gms:google-services:4.4.2")
+    implementation ("com.google.firebase:firebase-auth:23.2.1")
+    implementation ("com.google.firebase:firebase-bom:33.15.0")
+    implementation ("com.google.android.gms:play-services-auth:21.3.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
