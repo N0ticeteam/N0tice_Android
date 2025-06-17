@@ -1,6 +1,5 @@
 package com.example.n0tice.core.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -43,6 +42,10 @@ val preFontFamily = FontFamily(
     Font(R.font.pre_medium),
     Font(R.font.pre_semibold, FontWeight.SemiBold),
     Font(R.font.pre_bold, FontWeight.Bold)
+)
+
+val yoonchildFamily = FontFamily(
+    Font(R.font.manseh)
 )
 
 @Composable
