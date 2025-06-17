@@ -1,7 +1,5 @@
 package com.example.n0tice.feature.login
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,7 +30,8 @@ import com.example.n0tice.core.ui.theme.yoonchildFamily
 
 @Composable
 fun LoginScreen(
-    startLogin: ((String) -> Unit) -> Unit,
+    startNaverLogin: ((String) -> Unit) -> Unit,
+    startGoogleLogin: ((String) -> Unit) -> Unit,
     onLoginSuccess: (String) -> Unit
 ) {
     val context = LocalContext.current
@@ -95,7 +94,7 @@ fun LoginScreen(
                     .background(Color(0xFF03C75A), RoundedCornerShape(35.dp))
                     .clickable(
                         onClick = {
-                            startLogin { token ->
+                            startNaverLogin { token ->
                                 onLoginSuccess(token)
                             }
                         }
@@ -114,24 +113,16 @@ fun LoginScreen(
                 modifier = Modifier
                     .fillMaxWidth(0.95f)
                     .aspectRatio(6.5f)
-                    .clickable(onClick = {
-                        val testIntent = Intent(
-                            Intent.ACTION_VIEW,
-                            Uri.parse("n0tice://callback?accessToken=test_token")
-                        )
-                        context.startActivity(testIntent)
-
-                    }),
+                    .clickable(
+                        onClick = {
+                            startGoogleLogin { token ->
+                                onLoginSuccess(token)
+                            }
+                        }
+                    ),
                 painter = painterResource(R.drawable.google_login),
                 contentDescription = null
             )
         }
     }
-}
-
-
-@Preview
-@Composable
-fun Preview() {
-    LoginScreen({}, {})
 }
