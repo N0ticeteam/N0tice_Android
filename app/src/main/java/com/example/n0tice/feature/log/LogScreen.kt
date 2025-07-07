@@ -16,6 +16,7 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,7 +31,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.n0tice.R
 import com.example.n0tice.core.api.n0tice.dto.MonthlyWorkLog
 import com.example.n0tice.core.api.n0tice.dto.WorkLogRequest
@@ -44,7 +44,6 @@ import java.time.YearMonth
 @Composable
 fun LogScreen(
     logViewModel: LogViewModel,
-    navController: NavController
 ) {
     val context = LocalContext.current
 
