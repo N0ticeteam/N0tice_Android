@@ -11,7 +11,6 @@ import com.example.n0tice.core.api.n0tice.dto.WorkLogRequest
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import retrofit2.HttpException
 
 class LogViewModel : ViewModel() {
     val service = N0ticeClient.getInstance().create(N0ticeApiService::class.java)
@@ -30,19 +29,30 @@ class LogViewModel : ViewModel() {
         Log.d("LogViewModel", "readWorkLog called: $date,$userId")
 
         viewModelScope.launch {
-            val response = service.readWorkLog(date, userId)
-
             try {
-                if (response.isSuccess) {
-                    _dailyLog.value = response.data
-                    Log.d("LogViewModel", "getWorkLog result: ${_dailyLog.value}")
+                val response = service.readWorkLog(date, userId)
+
+                if (response.isSuccessful) {
+
+                    val body = response.body()
+                    if (body != null && body.isSuccess) {
+                        _dailyLog.value = body.data
+                    } else {
+                        _dailyLog.value = null
+
+                        val errorBody = response.errorBody()?.string()
+                        Log.e("LogViewModel", "HTTP Error: ${response.code()} $errorBody")
+                    }
                 } else {
-                    Log.e("LogViewModel", "getMonthlyWorkLogs Error: ${response.message}")
+                    _dailyLog.value = null
+
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("LogViewModel", "HTTP Error: ${response.code()} $errorBody")
                 }
             } catch (e: Exception) {
-                Log.e("LogViewModel", "getMonthlyWorkLogs Error: ${e.message}")
+                _dailyLog.value = null
+                Log.e("LogViewModel", "getDailyWorkLog failed: ${e.message}")
             }
-
         }
     }
 
@@ -51,18 +61,30 @@ class LogViewModel : ViewModel() {
         Log.d("LogViewModel", "getMonthlyWorkLogs called: $year, $month, $userId")
 
         viewModelScope.launch {
-            val response = service.readMonthlyWorkLogs(year, month, userId)
-
             try {
-                if (response.isSuccess) {
-                    _monthlyLogs.value = response.data
+                val response = service.readMonthlyWorkLogs(year, month, userId)
+
+                if (response.isSuccessful) {
+
+                    val body = response.body()
+                    if (body != null && body.isSuccess) {
+                        _monthlyLogs.value = body.data
+                    } else {
+                        _monthlyLogs.value = emptyList()
+
+                        val errorBody = response.errorBody()?.string()
+                        Log.e("LogViewModel", "HTTP Error: ${response.code()} $errorBody")
+                    }
                 } else {
-                    Log.e("LogViewModel", "getMonthlyWorkLogs Error: ${response.message}")
+                    _monthlyLogs.value = emptyList()
+
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("LogViewModel", "HTTP Error: ${response.code()} $errorBody")
                 }
-            } catch (e: HttpException) {
-                Log.e("LogViewModel", "getMonthlyWorkLogs Error: ${e.message}")
             } catch (e: Exception) {
-                Log.e("LogViewModel", "getMonthlyWorkLogs Error: ${response.message}")
+                _monthlyLogs.value = emptyList()
+
+                Log.e("LogViewModel", "getMonthlyWorkLogs Error: ${e.message}")
             }
         }
     }
@@ -72,19 +94,31 @@ class LogViewModel : ViewModel() {
         Log.d("LogViewModel", "createWorkLog called: $workLog")
 
         viewModelScope.launch {
-            val response = service.createWorkLog(req = workLog)
             try {
-                if (response.isSuccess) {
-                    _logWriteState.value =
-                        LogWriteState(isSuccess = response.isSuccess, message = response.message)
+                val response = service.createWorkLog(req = workLog)
+
+                if (response.isSuccessful) {
+
+                    val body = response.body()
+                    if (body != null && body.isSuccess) {
+                        _logWriteState.value =
+                            LogWriteState(isSuccess = body.isSuccess, message = body.message)
+                    } else {
+                        _logWriteState.value = LogWriteState(isSuccess = false)
+
+                        val errorBody = response.errorBody()?.string()
+                        Log.e("LogViewModel", "HTTP Error: ${response.code()} $errorBody")
+                    }
+
                 } else {
-                    _logWriteState.value =
-                        LogWriteState(isSuccess = response.isSuccess, message = response.message)
+                    _logWriteState.value = LogWriteState(isSuccess = false)
+
+                    val errorBody = response.errorBody()?.string()
+                    Log.e("RiskViewModel", "HTTP Error: ${response.code()} $errorBody")
                 }
             } catch (e: Exception) {
-                _logWriteState.value =
-                    LogWriteState(isSuccess = response.isSuccess, message = response.message)
-                Log.e("LogViewModel", "createWorkLog Error: ${_logWriteState.value.message}")
+                _logWriteState.value = LogWriteState(isSuccess = false)
+                Log.e("LogViewModel", "createWorkLog Error: ${e.message}")
             }
 
         }
