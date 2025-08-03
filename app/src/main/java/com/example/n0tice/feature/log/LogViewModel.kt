@@ -25,12 +25,12 @@ class LogViewModel : ViewModel() {
     val dailyLog: StateFlow<DailyWorkLog?> = _dailyLog
 
     // 특정 일자의 작업 일지를 받아오는 함수
-    fun getDailyWorkLog(date: String, userId: Long) {
+    fun getDailyWorkLog(date: String, userId: String) {
         Log.d("LogViewModel", "readWorkLog called: $date,$userId")
 
         viewModelScope.launch {
             try {
-                val response = service.readWorkLog(date, userId)
+                val response = service.readWorkLog(date, userId.toLong()) // TODO: 나중에 toLong 지우기
 
                 if (response.isSuccessful) {
 

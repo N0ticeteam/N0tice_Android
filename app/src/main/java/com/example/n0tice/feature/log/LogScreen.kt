@@ -2,6 +2,7 @@
 
 package com.example.n0tice.feature.log
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -132,8 +133,10 @@ fun LogScreen(
             ) {
                 // 일지가 존재하면 일지 표시
                 // 일지가 존재하지 않으면 일지 추가 버튼 표시
+                val sp = context.getSharedPreferences("user", Context.MODE_PRIVATE)
+
                 if (log != null) {
-                    logViewModel.getDailyWorkLog(log.logDate, 1)
+                    sp.getString("user_id", null)?.let { logViewModel.getDailyWorkLog(log.logDate, it) }
                     dailyLog?.let { WorkLogView(dailyLog) }
                 } else {
                     FloatingActionButton(
