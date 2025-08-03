@@ -4,6 +4,7 @@ import com.example.n0tice.core.api.n0tice.dto.Company
 import com.example.n0tice.core.api.n0tice.dto.DailyWorkLog
 import com.example.n0tice.core.api.n0tice.dto.MonthlyWorkLog
 import com.example.n0tice.core.api.n0tice.dto.N0ticeResponse
+import com.example.n0tice.core.api.n0tice.dto.UserSituationRequest
 import com.example.n0tice.core.api.n0tice.dto.WorkLogRequest
 import retrofit2.Response
 import retrofit2.http.Body
@@ -48,4 +49,9 @@ interface N0ticeApiService {
         @Query("neighborhood") neighborhood: String
     ):Response<N0ticeResponse<List<Company>>>
 
+    // 사용자 상황 입력 (kindb/kindc)
+    @POST("api/situation-input")
+    suspend fun setUserSituation(
+        @Body req: UserSituationRequest
+    ):Response<N0ticeResponse<Unit>>
 }

@@ -31,7 +31,8 @@ import com.example.n0tice.core.ui.theme.preFontFamily
 
 @Composable
 fun PredictScreen(
-    navController: NavController
+    navController: NavController,
+    predictViewModel: PredictViewModel
 ) {
     Box(
         modifier = Modifier
