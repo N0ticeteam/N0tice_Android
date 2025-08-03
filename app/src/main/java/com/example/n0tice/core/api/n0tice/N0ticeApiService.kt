@@ -17,14 +17,14 @@ interface N0ticeApiService {
     @POST("api/work-logs")
     suspend fun createWorkLog(
         @Body req: WorkLogRequest
-    ): N0ticeResponse<Unit>
+    ): Response<N0ticeResponse<Unit>>
 
     // 특정 일지 조회 API
     @GET("api/work-logs")
     suspend fun readWorkLog(
         @Query("date") date: String,
         @Query("userId") userId: Long
-    ): N0ticeResponse<DailyWorkLog>
+    ): Response<N0ticeResponse<DailyWorkLog>>
 
     // 월간 일지 조회 API
     @GET("api/work-logs/monthly")
@@ -32,7 +32,7 @@ interface N0ticeApiService {
         @Query("year") year: String,
         @Query("month") month: String,
         @Query("userId") userId: Long,
-    ): N0ticeResponse<List<MonthlyWorkLog>>
+    ): Response<N0ticeResponse<List<MonthlyWorkLog>>>
 
     // 키워드 기반 고위험 사업장 조회 API
     @GET("api/companies/search")

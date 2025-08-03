@@ -30,7 +30,7 @@ fun NavGraph(
     NavHost(navController = navController, startDestination = BottomNavItem.Log.route) {
         composable(BottomNavItem.Log.route) {
             val logViewModel: LogViewModel = viewModel()
-            LogScreen(logViewModel, navController)
+            LogScreen(logViewModel)
         }
 
         composable(BottomNavItem.Risk.route) {
