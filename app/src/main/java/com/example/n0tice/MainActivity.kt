@@ -1,5 +1,6 @@
 package com.example.n0tice
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -10,6 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.lifecycleScope
+import com.example.n0tice.core.api.naver.NaverApiService
 import com.example.n0tice.core.ui.theme.N0ticeTheme
 import com.example.n0tice.feature.login.LoginScreen
 import com.example.n0tice.main.MainScreen
@@ -21,6 +24,9 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.navercorp.nid.NaverIdLoginSDK
 import com.navercorp.nid.oauth.OAuthLoginCallback
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import androidx.core.content.edit
 
 class MainActivity : ComponentActivity() {
 
@@ -82,6 +88,7 @@ class MainActivity : ComponentActivity() {
                 runOnUiThread {
                     if (accessToken != null) {
                         onLoginSuccess(accessToken)
+                        getNaverMemberProfile(accessToken)
                     } // 로그인 성공 콜백 호출
                 }
             }
@@ -94,6 +101,27 @@ class MainActivity : ComponentActivity() {
                 Log.e("NaverLogin", "Login error: $message")
             }
         })
+    }
+
+    // 사용자 프로필 조회
+    private fun getNaverMemberProfile(token: String) {
+        Log.d("NaverLogin", "getNaverMemberProfile called: $token")
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            try {
+                val profile = NaverApiService.fetchUserProfile(token)
+
+                // Shared Preferences에 사용자 정보 저장
+                val sp = getSharedPreferences("user", Context.MODE_PRIVATE)
+                sp.edit {
+                    putString("USER_ID", profile.id)
+                }
+
+                Log.d("NaverProfile", profile.toString())
+            } catch (e: Exception) {
+                Log.e("NaverProfile", "Profile fetch failed", e)
+            }
+        }
     }
 
     private fun startGoogleLogin(onLoginSuccess: (String) -> Unit) {
