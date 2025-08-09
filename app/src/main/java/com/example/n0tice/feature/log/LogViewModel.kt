@@ -30,7 +30,7 @@ class LogViewModel : ViewModel() {
 
         viewModelScope.launch {
             try {
-                val response = service.readWorkLog(date, userId.toLong()) // TODO: 나중에 toLong 지우기
+                val response = service.readWorkLog(date, userId)
 
                 if (response.isSuccessful) {
 
@@ -57,7 +57,7 @@ class LogViewModel : ViewModel() {
     }
 
     // 월별 작업 일지를 받아오는 함수
-    fun getMonthlyWorkLogs(year: String, month: String, userId: Long) {
+    fun getMonthlyWorkLogs(year: String, month: String, userId: String) {
         Log.d("LogViewModel", "getMonthlyWorkLogs called: $year, $month, $userId")
 
         viewModelScope.launch {

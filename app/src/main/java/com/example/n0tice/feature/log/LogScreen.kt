@@ -17,7 +17,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -98,7 +97,7 @@ fun LogScreen(
         logViewModel.getMonthlyWorkLogs(
             year = calendarState.firstVisibleMonth.yearMonth.year.toString(),
             month = calendarState.firstVisibleMonth.yearMonth.monthValue.toString(),
-            userId = 1
+            userId = "1" // TODO: 실제 아이디로 수정할 것
         )
     }
 

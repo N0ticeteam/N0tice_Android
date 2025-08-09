@@ -146,9 +146,8 @@ fun ScenarioSelectionScreen(
                                 .padding(bottom = 35.dp)
                                 .background(color = SubGreen, shape = RoundedCornerShape(20.dp)),
                             onClick = {
-                                // TODO: kindb, kindc 담아서 요청 보내기
                                 predictViewModel.inputUserSituation(
-                                    1,
+                                    "1", // TODO: 실제 아이디로 수정할 것
                                     selectedKindBOption!!, // if 문에서 걸러지므로 항상 not-null
                                     selectedKindCOption
                                 )
