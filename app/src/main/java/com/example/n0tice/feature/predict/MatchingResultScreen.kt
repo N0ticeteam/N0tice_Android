@@ -14,15 +14,16 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.IconButton
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,22 +47,24 @@ import com.example.n0tice.core.ui.theme.preFontFamily
 
 @Composable
 fun MatchingResultScreen(
+    predictViewModel: PredictViewModel,
     onBackPressed: () -> Unit,
     navigateToLoss: () -> Unit
 ) {
-    val options = listOf(
-        "상황:" to "질병",
-        "추가 정보:" to "사업주가 산재 신청을 거부했어요",
-        "추가 키워드:" to "목격자 없음"
+    // 사용자 상황
+    val options = predictViewModel.userSituationState.value.data?.let { situation ->
+        listOf(
+            "상황:" to situation.kindb,
+            "추가 정보:" to situation.kindc,
+            "세부 상황:" to situation.kindc
+        )
+    } ?: listOf(
+        "상황:" to "상황 정보가 없어요",
+        "추가 정보:" to "추가 정보 없음",
+        "세부 상황:" to "세부 상황 없음"
     )
 
-    val list = listOf(
-        "출퇴근 중 교통사고 관련 산재 인정 여부",
-        "출퇴근 중 교통사고 관련 산재 인정 여부",
-        "출퇴근 중 교통사고 관련 산재 인정 여부",
-        "출퇴근 중 교통사고 관련 산재 인정 여부",
-        "출퇴근 중 교통사고 관련 산재 인정 여부"
-    )
+    val caseList = predictViewModel.accidentCaseList.collectAsState().value
 
     var expanded by remember { mutableStateOf(false) }
     val sort = listOf("정확도순", "최신순", "조회순")
@@ -146,11 +149,10 @@ fun MatchingResultScreen(
                             }
                         }
                     }
-
                 }
 
                 LazyColumn {
-                    items(list) {
+                    items(caseList) {
                         Surface(
                             shape = RoundedCornerShape(14.dp), // 2
                             color = Color.White, // 3
@@ -169,7 +171,7 @@ fun MatchingResultScreen(
                                 }
                         ) {
                             Text(
-                                text = it,
+                                text = it.title,
                                 style = TextStyle(
                                     fontFamily = preFontFamily,
                                     fontWeight = FontWeight.SemiBold,
