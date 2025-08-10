@@ -34,7 +34,7 @@ import com.example.n0tice.core.ui.theme.preFontFamily
 import com.example.n0tice.feature.predict.model.KindBMapping
 import com.example.n0tice.feature.predict.model.KindBOption
 import com.example.n0tice.feature.predict.model.KindCOption
-import com.example.n0tice.feature.predict.model.UserSituation
+import com.example.n0tice.feature.predict.model.Situation
 
 @Composable
 fun ScenarioSelectionScreen(
@@ -42,8 +42,7 @@ fun ScenarioSelectionScreen(
     onBackPressed: () -> Unit,
     navigateToResult: () -> Unit
 ) {
-
-    var selectedUserSituation by remember { mutableStateOf<UserSituation?>(null) }
+    var selectedUserSituation by remember { mutableStateOf<Situation?>(null) }
 
     var selectedKindBOption by remember { mutableStateOf<KindBOption?>(null) }
     var selectedKindCOption by remember { mutableStateOf<KindCOption?>(null) }
@@ -87,7 +86,7 @@ fun ScenarioSelectionScreen(
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             SingleSelectChipGroup(
-                                options = UserSituation.entries.toList(),
+                                options = Situation.entries.toList(),
                                 selectedOption = selectedUserSituation,
                                 onOptionSelected = { selectedUserSituation = it },
                                 labelFor = { it.label }
@@ -153,7 +152,6 @@ fun ScenarioSelectionScreen(
                                 )
 
                                 navigateToResult()
-
                             }
                         ) {
                             Text(

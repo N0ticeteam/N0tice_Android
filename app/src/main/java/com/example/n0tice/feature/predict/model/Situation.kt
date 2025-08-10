@@ -1,6 +1,6 @@
 package com.example.n0tice.feature.predict.model
 
-enum class UserSituation(
+enum class Situation(
     val label: String,
     val type: String
 ) {
