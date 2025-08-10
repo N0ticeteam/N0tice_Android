@@ -62,6 +62,7 @@ fun NavGraph(
 
         composable("matching_result") {
             MatchingResultScreen(
+                predictViewModel  = predictViewModel,
                 onBackPressed = navController::popBackStack,
                 navigateToLoss = { navController.navigate("loss") }
 
