@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.n0tice.core.components.TopBar
@@ -35,12 +34,15 @@ import com.example.n0tice.core.ui.theme.preFontFamily
 import com.example.n0tice.feature.predict.model.KindBMapping
 import com.example.n0tice.feature.predict.model.KindBOption
 import com.example.n0tice.feature.predict.model.KindCOption
-import com.example.n0tice.feature.predict.model.UserSituation
+import com.example.n0tice.feature.predict.model.Situation
 
 @Composable
-fun ScenarioSelectionScreen(onBackPressed: () -> Unit, navigateToResult: () -> Unit) {
-
-    var selectedUserSituation by remember { mutableStateOf<UserSituation?>(null) }
+fun ScenarioSelectionScreen(
+    predictViewModel: PredictViewModel,
+    onBackPressed: () -> Unit,
+    navigateToResult: () -> Unit
+) {
+    var selectedUserSituation by remember { mutableStateOf<Situation?>(null) }
 
     var selectedKindBOption by remember { mutableStateOf<KindBOption?>(null) }
     var selectedKindCOption by remember { mutableStateOf<KindCOption?>(null) }
@@ -84,7 +86,7 @@ fun ScenarioSelectionScreen(onBackPressed: () -> Unit, navigateToResult: () -> U
                             verticalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
                             SingleSelectChipGroup(
-                                options = UserSituation.entries.toList(),
+                                options = Situation.entries.toList(),
                                 selectedOption = selectedUserSituation,
                                 onOptionSelected = { selectedUserSituation = it },
                                 labelFor = { it.label }
@@ -142,7 +144,15 @@ fun ScenarioSelectionScreen(onBackPressed: () -> Unit, navigateToResult: () -> U
                             modifier = Modifier
                                 .padding(bottom = 35.dp)
                                 .background(color = SubGreen, shape = RoundedCornerShape(20.dp)),
-                            onClick = { navigateToResult() }
+                            onClick = {
+                                predictViewModel.inputUserSituation(
+                                    "1", // TODO: 실제 아이디로 수정할 것
+                                    selectedKindBOption!!, // if 문에서 걸러지므로 항상 not-null
+                                    selectedKindCOption
+                                )
+
+                                navigateToResult()
+                            }
                         ) {
                             Text(
                                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 45.dp),
@@ -200,15 +210,5 @@ private fun CaseStepSelector(case: String, detail: String) {
                 color = Color.Black
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun Preview() {
-    Surface(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        ScenarioSelectionScreen({}, {})
     }
 }

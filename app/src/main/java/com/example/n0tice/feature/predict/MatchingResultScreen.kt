@@ -14,15 +14,16 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.IconButton
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,26 +43,30 @@ import com.example.n0tice.R
 import com.example.n0tice.core.components.TopBar
 import com.example.n0tice.core.ui.theme.DeathRed
 import com.example.n0tice.core.ui.theme.LightRed
+import com.example.n0tice.core.ui.theme.UnclearYellow
 import com.example.n0tice.core.ui.theme.preFontFamily
 
 @Composable
 fun MatchingResultScreen(
+    predictViewModel: PredictViewModel,
     onBackPressed: () -> Unit,
+    navigateToResult: (Int, String) -> Unit,
     navigateToLoss: () -> Unit
 ) {
-    val options = listOf(
-        "상황:" to "질병",
-        "추가 정보:" to "사업주가 산재 신청을 거부했어요",
-        "추가 키워드:" to "목격자 없음"
+    // 사용자 상황
+    val options = predictViewModel.userSituationState.value.data?.let { situation ->
+        listOf(
+            "상황:" to (situation.kindb ?: "상황 정보 없음"),
+            "추가 정보:" to (situation.kindc ?: "추가 정보 없음"),
+            "세부 상황:" to (situation.kindc ?: "세부 상황 없음")
+        )
+    } ?: listOf(
+        "상황:" to "상황 정보 없음",
+        "추가 정보:" to "추가 정보 없음",
+        "세부 상황:" to "세부 상황 없음"
     )
 
-    val list = listOf(
-        "출퇴근 중 교통사고 관련 산재 인정 여부",
-        "출퇴근 중 교통사고 관련 산재 인정 여부",
-        "출퇴근 중 교통사고 관련 산재 인정 여부",
-        "출퇴근 중 교통사고 관련 산재 인정 여부",
-        "출퇴근 중 교통사고 관련 산재 인정 여부"
-    )
+    val caseList = predictViewModel.accidentCaseList.collectAsState().value
 
     var expanded by remember { mutableStateOf(false) }
     val sort = listOf("정확도순", "최신순", "조회순")
@@ -76,7 +81,8 @@ fun MatchingResultScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White),
+                .background(Color.White)
+                .padding(bottom = 15.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             TopBar(
@@ -92,6 +98,7 @@ fun MatchingResultScreen(
                 // 사용자 상황 카드
                 UserCaseCard(options, navigateToLoss)
 
+                // 정렬
                 Box(
                     modifier = Modifier.fillMaxWidth(),
                     contentAlignment = Alignment.CenterEnd
@@ -146,11 +153,13 @@ fun MatchingResultScreen(
                             }
                         }
                     }
-
                 }
 
-                LazyColumn {
-                    items(list) {
+                // 매칭 결과 목록 리스트
+                LazyColumn(
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(caseList) {
                         Surface(
                             shape = RoundedCornerShape(14.dp), // 2
                             color = Color.White, // 3
@@ -166,18 +175,48 @@ fun MatchingResultScreen(
                                         right = size.width + paddingPx, // 9
                                         bottom = size.height + paddingPx // 10
                                     ) { this@drawWithContent.drawContent() }
+                                },
+                            onClick = {
+                                val id = predictViewModel.userSituationState.value.data?.id
+                                val caseNum = it.caseNumber
+                                if (id != null) {
+                                    navigateToResult(id, caseNum)
                                 }
+                            },
                         ) {
-                            Text(
-                                text = it,
-                                style = TextStyle(
-                                    fontFamily = preFontFamily,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontSize = 14.sp
-                                ),
-                                modifier = Modifier.padding(20.dp),
-                                color = Color.Black
-                            )
+                            Column(
+                                modifier = Modifier.padding(10.dp)
+                            ) {
+                                Text(
+                                    text = it.title,
+                                    style = TextStyle(
+                                        fontFamily = preFontFamily,
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontSize = 14.sp
+                                    ),
+                                    modifier = Modifier.padding(8.dp),
+                                    color = Color.Black
+                                )
+
+                                Box(
+                                    modifier = Modifier
+                                        .background(UnclearYellow, RoundedCornerShape(10.dp))
+                                        .padding(6.dp)
+                                        .align(Alignment.End),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(
+                                        text = it.caseNumber,
+                                        style = TextStyle(
+                                            fontFamily = preFontFamily,
+                                            fontWeight = FontWeight.Medium,
+                                            fontSize = 10.sp
+                                        ),
+                                        textAlign = TextAlign.End,
+                                        color = Color.Black
+                                    )
+                                }
+                            }
                         }
                     }
                 }

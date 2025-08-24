@@ -25,7 +25,7 @@ class LogViewModel : ViewModel() {
     val dailyLog: StateFlow<DailyWorkLog?> = _dailyLog
 
     // 특정 일자의 작업 일지를 받아오는 함수
-    fun getDailyWorkLog(date: String, userId: Long) {
+    fun getDailyWorkLog(date: String, userId: String) {
         Log.d("LogViewModel", "readWorkLog called: $date,$userId")
 
         viewModelScope.launch {
@@ -57,7 +57,7 @@ class LogViewModel : ViewModel() {
     }
 
     // 월별 작업 일지를 받아오는 함수
-    fun getMonthlyWorkLogs(year: String, month: String, userId: Long) {
+    fun getMonthlyWorkLogs(year: String, month: String, userId: String) {
         Log.d("LogViewModel", "getMonthlyWorkLogs called: $year, $month, $userId")
 
         viewModelScope.launch {

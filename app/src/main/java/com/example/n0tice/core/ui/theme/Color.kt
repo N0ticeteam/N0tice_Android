@@ -50,3 +50,5 @@ val Violet = Color(0xFF7373EF)
 val BlueGray = Color(0xFF8F9BB3)
 val BorderGray = Color(0xFFCED3DE)
 val LightGray = Color(0xFFEDF1F7)
+val MediumGray = Color(0xFFDFE2E8)
+

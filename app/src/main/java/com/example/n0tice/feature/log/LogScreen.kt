@@ -2,6 +2,7 @@
 
 package com.example.n0tice.feature.log
 
+import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +17,6 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -97,7 +97,7 @@ fun LogScreen(
         logViewModel.getMonthlyWorkLogs(
             year = calendarState.firstVisibleMonth.yearMonth.year.toString(),
             month = calendarState.firstVisibleMonth.yearMonth.monthValue.toString(),
-            userId = 1
+            userId = "1" // TODO: 실제 아이디로 수정할 것
         )
     }
 
@@ -132,8 +132,10 @@ fun LogScreen(
             ) {
                 // 일지가 존재하면 일지 표시
                 // 일지가 존재하지 않으면 일지 추가 버튼 표시
+                val sp = context.getSharedPreferences("user", Context.MODE_PRIVATE)
+
                 if (log != null) {
-                    logViewModel.getDailyWorkLog(log.logDate, 1)
+                    sp.getString("user_id", null)?.let { logViewModel.getDailyWorkLog(log.logDate, it) }
                     dailyLog?.let { WorkLogView(dailyLog) }
                 } else {
                     FloatingActionButton(
